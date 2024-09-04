@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.NurseMapper">
+    <insert id="insert" parameterType="nurse">
+        INSERT INTO `nurse` (`nno`, `nname`, `did`) VALUES(#{nno}, #{nname}, #{did})
+    </insert>
+    <update id="update" parameterType="nurse">
+        UPDATE `nurse` SET `nno`=#{nno}, `nname`=#{nname}, `did`=#{did},  WHERE `nid`=#{nid}
+    </update>
+    <delete id="delete">
+        DELETE FROM `nurse` WHERE `nid`=#{nid}
+    </delete>
+    <select id="selectAll" resultType="nurse">
+        SELECT * FROM `nurse`
+    </select>
+    <select id="selectByNname" resultType="nurse">
+        SELECT * FROM `nurse`
+        <where>
+            <if test="nname!=null and nname.length>0">
+                `nname` LIKE concat('%', #{nname}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="selectByNid" resultType="nurse">
+        SELECT * FROM `nurse` WHERE `nid`=#{nid}
+    </select>
+    <select id="selectByDid" resultType="nurse">
+        SELECT * FROM `nurse` WHERE `did`=#{did}
+    </select>
+    <!--<select id="selectByPno" resultType="nurse">-->
+    <!--    SELECT * FROM `nurse` WHERE `pno`=#{pno}-->
+    <!--</select>-->
+    <select id="selectByNno" resultType="nurse">
+        SELECT * FROM `nurse` WHERE `nno`=#{nno}
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.PatientMapper">
+    <insert id="insert" parameterType="patient">
+        INSERT INTO `patient`(`pno`, `pname`, `page`, `pgender`, `padmissiondate`, `pleavedate`, `pstatus`, `ptelephone`,`did`) VALUES (#{pno}, #{pname}, #{page}, #{pgender}, #{padmissiondate}, #{pleavedate}, #{pstatus}, #{ptelephone}, #{did})
+    </insert>
+    <update id="update" parameterType="patient">
+        UPDATE `patient` SET `pno`=#{pno}, `pname`=#{pname}, `page`=#{page}, `pgender`=#{pgender}, `padmissiondate`=#{padmissiondate}, `pleavedate`=#{pleavedate}, `pstatus`=#{pstatus}, `ptelephone`=#{ptelephone},`did`=#{did} WHERE `pid`=#{pid}
+    </update>
+    <update id="setPstatus">
+        UPDATE `patient` SET `pstatus`=#{pstatus} WHERE `pid`=#{pid}
+    </update>
+    <select id="selectByPid" resultType="patient">
+        SELECT * FROM `patient`WHERE `pid`=#{pid}
+    </select>
+    <delete id="delete">
+        DELETE FROM `patient` WHERE `pid`=#{pid}
+    </delete>
+    <select id="selectAll" resultType="patient">
+        SELECT * FROM `patient`
+    </select>
+    <select id="selectByPname" resultType="patient">
+        SELECT * FROM `patient`
+        <where>
+            <if test="pname!=null and pname.length>0">
+                `pname` LIKE concat('%', #{pname}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="selectByDid" resultType="patient">
+        SELECT * FROM `patient` WHERE `did`=#{did}
+    </select>
+</mapper>
