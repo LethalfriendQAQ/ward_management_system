@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.WardMapper">
+    <insert id="insert" parameterType="ward">
+        INSERT INTO `ward` (`wnumber`, `did`) VALUES(#{wnumber}, #{did})
+    </insert>
+    <update id="update" parameterType="ward">
+        UPDATE `ward` SET `wnumber`=#{wnumber}, `did`=#{did} WHERE `wid`=#{wid}
+    </update>
+    <delete id="delete">
+        DELETE FROM `ward` WHERE `wid`=#{wid}
+    </delete>
+    <select id="selectAll" resultType="ward">
+        SELECT * FROM `ward`
+    </select>
+    <select id="selectByWnumber" resultType="ward">
+        SELECT * FROM `ward` WHERE `wnumber`=#{wnumber}
+    </select>
+</mapper>
