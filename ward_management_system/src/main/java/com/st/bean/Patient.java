@@ -33,6 +33,8 @@ public class Patient {
     private String ptelephone;
     //科室编号
     private Integer did;
+    //负责护士编号
+    private Integer nno;
     //所在科室信息
     private Department department;
 }

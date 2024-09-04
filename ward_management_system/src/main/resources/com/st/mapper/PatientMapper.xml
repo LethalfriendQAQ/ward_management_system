@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.st.mapper.PatientMapper">
     <insert id="insert" parameterType="patient">
-        INSERT INTO `patient`(`pno`, `pname`, `page`, `pgender`, `padmissiondate`, `pleavedate`, `pstatus`, `ptelephone`,`did`) VALUES (#{pno}, #{pname}, #{page}, #{pgender}, #{padmissiondate}, #{pleavedate}, #{pstatus}, #{ptelephone}, #{did})
+        INSERT INTO `patient`(`pno`, `pname`, `page`, `pgender`, `padmissiondate`, `pleavedate`, `pstatus`, `ptelephone`,`did`,`nno`) VALUES (#{pno}, #{pname}, #{page}, #{pgender}, #{padmissiondate}, #{pleavedate}, #{pstatus}, #{ptelephone}, #{did},#{nno})
     </insert>
     <update id="update" parameterType="patient">
-        UPDATE `patient` SET `pno`=#{pno}, `pname`=#{pname}, `page`=#{page}, `pgender`=#{pgender}, `padmissiondate`=#{padmissiondate}, `pleavedate`=#{pleavedate}, `pstatus`=#{pstatus}, `ptelephone`=#{ptelephone},`did`=#{did} WHERE `pid`=#{pid}
+        UPDATE `patient` SET `pno`=#{pno}, `pname`=#{pname}, `page`=#{page}, `pgender`=#{pgender}, `padmissiondate`=#{padmissiondate}, `pleavedate`=#{pleavedate}, `pstatus`=#{pstatus}, `ptelephone`=#{ptelephone},`did`=#{did} , `nno`=#{nno} WHERE `pid`=#{pid}
     </update>
     <update id="setPstatus">
         UPDATE `patient` SET `pstatus`=#{pstatus} WHERE `pid`=#{pid}

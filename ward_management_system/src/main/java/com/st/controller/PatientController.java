@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.st.bean.Patient;
 import com.st.bean.RespBean;
+import com.st.service.NurseService;
 import com.st.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import java.util.List;
 public class PatientController {
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private NurseService nurseService;
 
     @GetMapping
     public RespBean selectByPage(Integer pageNum, String pname) {
