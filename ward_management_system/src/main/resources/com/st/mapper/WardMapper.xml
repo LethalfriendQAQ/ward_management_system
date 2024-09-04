@@ -16,4 +16,7 @@
     <select id="selectByWnumber" resultType="ward">
         SELECT * FROM `ward` WHERE `wnumber`=#{wnumber}
     </select>
+    <select id="selectByWid" resultType="ward">
+        SELECT * FROM `ward` WHERE `wid`=#{wid}
+    </select>
 </mapper>

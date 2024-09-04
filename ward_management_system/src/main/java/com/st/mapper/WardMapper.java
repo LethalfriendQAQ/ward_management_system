@@ -15,4 +15,5 @@ public interface WardMapper {
     List<Ward> selectAll();
     //根据病房号查询
     Ward selectByWnumber(String wnumber);
+    Ward selectByWid(Long wid);
 }
