@@ -9,7 +9,7 @@
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="selectBywid(scope.row.wid)" round>修改</el-button>
                     <el-popconfirm title="你确定要删除该病房吗？" confirm-button-text="确认" cancel-button-text="取消" width="200px"
-                        @confirm="">
+                        @confirm="deleteByWid(scope.row.wid)">
                         <template #reference>
                             <el-button size="small" type="danger" round>删除</el-button>
                         </template>
@@ -152,6 +152,33 @@ function selectBywid(wid) {
             //显示修改对话框
             updateDialogShow.value = true
         })
+}
+
+//定义方法根据部门id删除病房
+function deleteByWid(wid) {
+    wardApi.delete(wid)
+        .then(resp => {
+            console.log(resp);
+            
+            //判断-弹出消息-刷新表格
+            if (resp.code == 10000) {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'success',
+                    duration: 1200
+                });
+                //刷新表格
+                selectAll();
+            } else {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'error',
+                    duration: 2000
+                });
+            }
+        });
 }
 
 selectAll();

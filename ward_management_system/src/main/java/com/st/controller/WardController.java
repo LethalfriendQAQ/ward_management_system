@@ -29,7 +29,7 @@ public class WardController {
     public RespBean delete(@PathVariable("wid") Long wid) throws SteduException {
 
         wardService.delete(wid);
-        return RespBean.ok("设置成出院状态成功");
+        return RespBean.ok("删除成功");
     }
     @PutMapping
     public RespBean update(@RequestBody Ward ward) throws SteduException {
