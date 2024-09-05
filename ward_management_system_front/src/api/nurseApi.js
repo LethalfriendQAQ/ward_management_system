@@ -15,7 +15,7 @@ const nurseApi = {
         return service.get('/user/nurse/');
     },
     selectByPage(pageNum, nname) {
-        return service.get('/user/nurse/', {
+        return service.get('/user/nurse', {
             params: {
                 pageNum,
                 nname
