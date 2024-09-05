@@ -21,8 +21,12 @@ public class MyTest01 {
     @Test
     public void test11() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Patient p = new Patient(null, "112", "11", 22, "女", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 2, "1001", "302", "302-2");
+        Patient p = new Patient(null, "23232", "11", 22, "女", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 2, "1002", "101", "101-1");
         System.out.println(patientService.insert(p));
+    }
+    @Test
+    public void test12() {
+        System.out.println(patientService.delete(22L));
     }
 
     @Test

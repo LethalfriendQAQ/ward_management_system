@@ -27,7 +27,11 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public boolean delete(Long pid) {
-        return patientMapper.setPstatus(pid, 2) == 1;
+
+        if (patientMapper.setPstatus(pid, 2) == 1) {
+            bedMapper.updatePnoAndNnoByBnumber(null, null, patientMapper.selectByPid(pid).getBnumber());
+        }
+        return true;
     }
 
     @Override
