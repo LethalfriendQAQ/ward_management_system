@@ -97,13 +97,13 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="病房号" label-width="20%">
-                <el-select v-model="patientAdd.did" placeholder="请选择科室" style="width: 300px;">
+                <el-select v-model="patientAdd.wnumber" placeholder="请选择科室" style="width: 300px;">
                     <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
                         :value="department.did" />
                 </el-select>
             </el-form-item>
             <el-form-item label="病床号" label-width="20%">
-                <el-select v-model="patientAdd.did" placeholder="请选择科室" style="width: 300px;">
+                <el-select v-model="patientAdd.bnumber" placeholder="请选择科室" style="width: 300px;">
                     <el-option v-for="(nurse, index) in nurseList" :key="index" :label="department.dname"
                         :value="department.did" />
                 </el-select>

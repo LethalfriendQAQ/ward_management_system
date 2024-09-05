@@ -4,6 +4,7 @@ import PatientView from '@/views/PatientView.vue'
 import DepartmentView from '@/views/DepartmentView.vue'
 import IndexView from '@/views/IndexView.vue'
 import NurseView from '@/views/NurseView.vue'
+import WardView from '@/views/WardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,9 @@ const router = createRouter({
         }, {
           path: '/nurse',
           component: NurseView
+        }, {
+          path: '/ward',
+          component: WardView
         }
       ]
     }, {

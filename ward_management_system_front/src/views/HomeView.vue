@@ -21,11 +21,10 @@
                 </el-icon>
                 <span>病房管理</span>
               </template>
-              <el-menu-item index="/patient">
-                患者管理
-              </el-menu-item>
+              <el-menu-item index="/patient">患者管理</el-menu-item>
               <el-menu-item index="/dept">科室管理</el-menu-item>
               <el-menu-item index="/nurse">护士管理</el-menu-item>
+              <el-menu-item index="/ward">病房管理</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-aside>
