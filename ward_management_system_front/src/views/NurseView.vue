@@ -10,7 +10,7 @@
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="selectByNid(scope.row.nid)" round>修改</el-button>
                     <el-popconfirm title="你确定要删除该科室吗？" confirm-button-text="确认" cancel-button-text="取消" width="200px"
-                        @confirm="">
+                        @confirm="deleteByNid(scope.row.nid)">
                         <template #reference>
                             <el-button size="small" type="danger" round>删除</el-button>
                         </template>
@@ -188,6 +188,22 @@ function update() {
                 //隐藏对话框
                 updateDialogShow.value = false;
                 //刷新表格数据
+                selectByPage(pageNow);
+            } else {
+                //弹出消息
+                ElMessage.error(resp.msg);
+            }
+        });
+}
+
+//定义方法完成护士删除
+function deleteByNid(nid) {
+    nurseApi.delete(nid) 
+        .then(resp => {
+            //判断-弹出消息-刷新表格
+            if (resp.code == 10000) {
+                //弹出消息
+                ElMessage.success(resp.msg);
                 selectByPage(pageNow);
             } else {
                 //弹出消息
