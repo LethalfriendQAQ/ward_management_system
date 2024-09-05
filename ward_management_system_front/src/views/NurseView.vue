@@ -9,7 +9,7 @@
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="selectByNid(scope.row.nid)" round>修改</el-button>
-                    <el-popconfirm title="你确定要删除该科室吗？" confirm-button-text="确认" cancel-button-text="取消" width="200px"
+                    <el-popconfirm title="你确定要删除该护士吗？" confirm-button-text="确认" cancel-button-text="取消" width="200px"
                         @confirm="deleteByNid(scope.row.nid)">
                         <template #reference>
                             <el-button size="small" type="danger" round>删除</el-button>

@@ -25,7 +25,7 @@ public class WardController {
         }
     }
 
-    @DeleteMapping("/{pid}")
+    @DeleteMapping("/{wid}")
     public RespBean delete(@PathVariable("wid") Long wid) throws SteduException {
 
         wardService.delete(wid);
@@ -42,6 +42,11 @@ public class WardController {
     @GetMapping("/all")
     public RespBean selectAll() {
         List<Ward> wardList = wardService.selectAll();
+        return RespBean.ok("", wardList);
+    }
+    @GetMapping("/{did}")
+    public RespBean selectByDid(@PathVariable("did") Integer did) {
+        List<Ward> wardList = wardService.selectByDid(did);
         return RespBean.ok("", wardList);
     }
     @GetMapping("/{wid}")

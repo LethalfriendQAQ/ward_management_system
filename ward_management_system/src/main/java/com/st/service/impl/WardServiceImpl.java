@@ -80,6 +80,11 @@ public class WardServiceImpl implements WardService {
     }
 
     @Override
+    public List<Ward> selectByDid(Integer did) {
+        return wardMapper.selectByDid(did);
+    }
+
+    @Override
     public Ward selectByWnumber(String wnumber) {
         return wardMapper.selectByWnumber(wnumber);
     }

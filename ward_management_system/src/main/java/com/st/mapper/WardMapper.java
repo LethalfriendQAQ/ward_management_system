@@ -13,6 +13,7 @@ public interface WardMapper {
     int update(Ward w);
     //查询所有护士
     List<Ward> selectAll();
+    List<Ward> selectByDid(Integer did);
     //根据病房号查询
     Ward selectByWnumber(String wnumber);
     Ward selectByWid(Long wid);

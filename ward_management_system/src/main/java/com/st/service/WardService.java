@@ -11,6 +11,7 @@ public interface WardService {
     boolean delete(Long wid) throws SteduException;
     boolean update(Ward w) throws SteduException;
     List<Ward> selectAll();
+    List<Ward> selectByDid(Integer did);
     Ward selectByWnumber(String wnumber);
     Ward selectByWid(Long wid);
 }
