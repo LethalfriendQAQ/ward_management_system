@@ -1,7 +1,7 @@
 import service from ".";
 
 const nurseApi = {
-    insert(patient) {
+    insert(nurse) {
         // 发送axios请求给服务器
         return service.post('/user/nurse', nurse);
     },
@@ -9,10 +9,10 @@ const nurseApi = {
         return service.delete(`/user/nurse/${nid}`);  
     },
     update(nurse) {
-        return service.put('/user/nurse/', nurse);
+        return service.put('/user/nurse', nurse);
     },
     selectAll() {
-        return service.get('/user/nurse/');
+        return service.get('/user/nurse');
     },
     selectByPage(pageNum, nname) {
         return service.get('/user/nurse', {
