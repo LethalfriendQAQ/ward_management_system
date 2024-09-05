@@ -41,11 +41,7 @@ public class PatientController {
 
     @DeleteMapping("/{pid}")
     public RespBean delete(@PathVariable("pid") Long pid) {
-        //if (employeeService.delete(eid)) {
-        //    return RespBean.ok("删除成功");
-        //} else {
-        //    return RespBean.error("删除失败，请重新删除");
-        //}
+
         patientService.delete(pid);
         return RespBean.ok("设置成出院状态成功");
     }
