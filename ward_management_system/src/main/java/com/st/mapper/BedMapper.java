@@ -1,6 +1,7 @@
 package com.st.mapper;
 
 import com.st.bean.Bed;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface BedMapper {
     int deleteByWnumber(String wnumber);
     //修改
     int update(Bed b);
+    int updateWnumberByOldwnumber(@Param("oldWnumber") String oldWnumber, @Param("newWnumber") String newWnumber);
     //查询所有护士
     List<Bed> selectAll();
     //根据病房号查询

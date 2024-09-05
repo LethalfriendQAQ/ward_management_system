@@ -7,6 +7,11 @@
     <update id="update" parameterType="bed">
         UPDATE `bed`SET `bnumber`=#{bnumber}, `pno`=#{pno}, `nno`=#{nno}, `wnumber`=#{wnumber} WHERE `bid`=#{bid}
     </update>
+    <update id="updateWnumberByOldwnumber" parameterType="bed">
+        UPDATE `bed`
+        SET `wnumber` = #{newWnumber}
+        WHERE `wnumber` = #{oldWnumber}
+    </update>
     <delete id="delete">
         DELETE FROM `bed` WHERE `bid`=#{bid}
     </delete>

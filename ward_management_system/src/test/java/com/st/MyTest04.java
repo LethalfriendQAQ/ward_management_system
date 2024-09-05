@@ -28,7 +28,7 @@ public class MyTest04 {
 
     @Test
     public void test12() throws SteduException {
-        Ward ward = new Ward(4L, "202", 2);
+        Ward ward = new Ward(9L, "302", 3);
         System.out.println(wardService.update(ward));
     }
     @Test

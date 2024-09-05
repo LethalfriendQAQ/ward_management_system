@@ -60,14 +60,18 @@ public class WardServiceImpl implements WardService {
 
     @Override
     public boolean update(Ward w) throws SteduException {
-        if (wardMapper.selectByWid(w.getWid()) == null) {
+        Ward originalWard  = wardMapper.selectByWid(w.getWid());
+        if (originalWard == null) {
             throw new SteduException("该病房不存在，无法修改");
         }
-        //根据修改之后的名字查询
+        //根据修改之后的病房号查询
         Ward w1 = wardMapper.selectByWnumber(w.getWnumber());
         if(w1 != null && w1.getWid() != w.getWid()) {
             throw new SteduException("修改之后的病房号和其他病房号重复，不允许修改");
         }
+        bedMapper.updateWnumberByOldwnumber(originalWard.getWnumber(), w.getWnumber());
+        System.out.println("Old Wnumber: " + originalWard.getWnumber());
+        System.out.println("New Wnumber: " + w.getWnumber());
 
         return wardMapper.update(w) == 1;
     }
