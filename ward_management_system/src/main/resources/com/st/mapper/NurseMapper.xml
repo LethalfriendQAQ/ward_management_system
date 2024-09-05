@@ -5,7 +5,7 @@
         INSERT INTO `nurse` (`nno`, `nname`, `did`) VALUES(#{nno}, #{nname}, #{did})
     </insert>
     <update id="update" parameterType="nurse">
-        UPDATE `nurse` SET `nno`=#{nno}, `nname`=#{nname}, `did`=#{did},  WHERE `nid`=#{nid}
+        UPDATE `nurse` SET `nno`=#{nno}, `nname`=#{nname}, `did`=#{did}  WHERE `nid`=#{nid}
     </update>
     <delete id="delete">
         DELETE FROM `nurse` WHERE `nid`=#{nid}

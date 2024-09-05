@@ -8,7 +8,7 @@
             <el-table-column prop="did" label="所属科室" />
             <el-table-column label="操作">
                 <template #default="scope">
-                    <el-button type="primary" size="small" @click="" round>修改</el-button>
+                    <el-button type="primary" size="small" @click="selectByNid(scope.row.nid)" round>修改</el-button>
                     <el-popconfirm title="你确定要删除该科室吗？" confirm-button-text="确认" cancel-button-text="取消" width="200px"
                         @confirm="">
                         <template #reference>
@@ -50,6 +50,32 @@
     </el-dialog>
     <!-- 添加对话框结束 -->
 
+
+    <!-- 修改对话框开始 -->
+    <el-dialog v-model="updateDialogShow" title="添加护士" width="500">
+        <el-form>
+            <el-form-item label="编号" label-width="20%">
+                <el-input v-model="nurseUpdate.nno" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="姓名" label-width="20%">
+                <el-input v-model="nurseUpdate.nname" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="所属科室" label-width="20%">
+                <el-select v-model="nurseUpdate.did" placeholder="请选择科室" style="width: 300px;">
+                    <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
+                        :value="department.did" />
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="addDialogShow = false">取消</el-button>
+                <el-button type="primary" @click="update">确认</el-button>
+            </div>
+        </template>
+    </el-dialog>
+    <!-- 修改对话框结束 -->
+
 </template>
 <script setup>
 import departmentApi from '@/api/departmentApi';
@@ -75,7 +101,15 @@ const nurseAdd = ref({
     nname: '',
     did: ''
 });
+
+const nurseUpdate = ref({
+    nid: '',
+    nno: '',
+    nname: '',
+    did: ''
+});
 const addDialogShow = ref(false);
+const updateDialogShow = ref(false);
 
 //分页显示
 function selectByPage(pageNum) {
@@ -93,6 +127,23 @@ function showAddDialog() {
             departmentList.value = resp.data;
             addDialogShow.value = true;
         });
+}
+
+//查询所有科室及护士信息并显示修改对话框
+function selectByNid(nid) {
+    departmentApi.selectAll()
+        .then(resp => {
+            departmentList.value = resp.data;
+            //根据nid查询护士信息
+            nurseApi.selectByNid(nid)
+                    .then(resp => {
+                        
+                        nurseUpdate.value = resp.data;
+                        //显示修改对话框
+                        updateDialogShow.value = true;
+                    });
+            
+        })
 }
 
 function selectAll() {
@@ -118,6 +169,24 @@ function insert() {
                     did: ''
                 }
 
+                //刷新表格数据
+                selectByPage(pageNow);
+            } else {
+                //弹出消息
+                ElMessage.error(resp.msg);
+            }
+        });
+}
+
+//定义方法完成护士修改
+function update() {
+    nurseApi.update(nurseUpdate.value)
+        .then(resp => {
+            if (resp.code == 10000) {
+                //弹出消息
+                ElMessage.success(resp.msg);
+                //隐藏对话框
+                updateDialogShow.value = false;
                 //刷新表格数据
                 selectByPage(pageNow);
             } else {
