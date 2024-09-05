@@ -44,12 +44,12 @@ public class WardController {
         List<Ward> wardList = wardService.selectAll();
         return RespBean.ok("", wardList);
     }
-    @GetMapping("/{did}")
+    @GetMapping("/byDid/{did}")
     public RespBean selectByDid(@PathVariable("did") Integer did) {
         List<Ward> wardList = wardService.selectByDid(did);
         return RespBean.ok("", wardList);
     }
-    @GetMapping("/{wid}")
+    @GetMapping("/byWid/{wid}")
     public RespBean selectByWid(@PathVariable("wid") Long wid) {
         Ward ward = wardService.selectByWid(wid);
         return RespBean.ok("", ward);

@@ -22,10 +22,10 @@
     <!-- 添加对话框开始 -->
     <el-dialog v-model="addDialogShow" title="添加科室" width="500">
         <el-form>
-            <el-form-item label="科室名称" lable-width="20%">
+            <el-form-item label="科室名称" label-width="20%">
                 <el-input v-model="departmentAdd.dname" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="科室位置" lable-width="20%">
+            <el-form-item label="科室位置" label-width="20%">
                 <el-input v-model="departmentAdd.dlocation" autocomplete="off" />
             </el-form-item>
         </el-form>

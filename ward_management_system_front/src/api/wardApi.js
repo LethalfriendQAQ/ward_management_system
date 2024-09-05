@@ -18,7 +18,7 @@ const wardApi = {
         return service.get(`/user/ward/byWid/${wid}`);
     },
     selectByDid(did) {
-        return service.get(`/user/ward/${did}`);
+        return service.get(`/user/ward/byDid/${did}`);
     }
 }
 

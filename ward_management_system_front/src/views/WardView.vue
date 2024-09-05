@@ -22,12 +22,13 @@
     <!-- 添加对话框开始 -->
     <el-dialog v-model="addDialogShow" title="添加病房" width="500">
         <el-form>
-            <el-form-item label="病房号" lable-width="20%">
+            <el-form-item label="病房号" label-width="20%">
                 <el-input v-model="wardAdd.wnumber" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="所属科室" lable-width="20%">
+            <el-form-item label="所属科室" label-width="20%">
                 <el-input v-model="wardAdd.did" autocomplete="off" />
             </el-form-item>
+
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -39,12 +40,12 @@
     <!-- 添加对话框结束 -->
 
     <!-- 修改对话框开始 -->
-    <el-dialog v-model="updateDialogShow" title="添加病房" width="500">
+    <el-dialog v-model="updateDialogShow" title="修改病房" width="500">
         <el-form>
-            <el-form-item label="病房号" lable-width="20%">
+            <el-form-item label="病房号" label-width="20%">
                 <el-input v-model="wardUpdate.wnumber" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="所属科室" lable-width="20%">
+            <el-form-item label="所属科室" label-width="20%">
                 <el-input v-model="wardUpdate.did" autocomplete="off" />
             </el-form-item>
         </el-form>
@@ -83,9 +84,9 @@ const updateDialogShow = ref(false);
 function selectAll() {
     wardApi.selectAll()
         .then(resp => {
-            wardList.value = resp.data; 
+            wardList.value = resp.data;
         });
-    
+
 }
 
 //定义方法完成病房添加
@@ -155,6 +156,4 @@ function selectBywid(wid) {
 
 selectAll();
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>
