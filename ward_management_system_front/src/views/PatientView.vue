@@ -10,7 +10,7 @@
                     <el-input v-model="pname" placeholder="请输入要搜索的姓名" @input="selectByPage(1);" />
                 </el-form-item>
             </el-form>
-            <el-table :data="pageInfo.list" border style="width: 100%" >
+            <el-table :data="pageInfo.list" border style="width: 100%">
                 <el-table-column prop="pid" label="ID" width="50px" />
                 <el-table-column prop="pno" label="编号" />
                 <el-table-column prop="pname" label="姓名" />
@@ -26,11 +26,9 @@
                 </el-table-column>
                 <el-table-column prop="ptelephone" label="电话" />
                 <el-table-column prop="did" label="科室编号" width="90px" />
-
                 <el-table-column prop="nno" label="护士编号" width="90px" />
                 <el-table-column prop="wnumber" label="病房号" width="90px" />
                 <el-table-column prop="bnumber" label="病床号" width="90px" />
-
                 <el-table-column label="操作">
                     <template #default="scope">
                         <el-button type="primary" size="small" @click="selectByPid(scope.row.pid)" round>修改</el-button>
@@ -68,10 +66,10 @@
                     <el-radio value="女" size="large">女</el-radio>
                 </el-radio-group>
             </el-form-item>
-            
+
             <el-form-item label="入院日期" label-width="20%">
-                <el-date-picker v-model="patientAdd.padmissiondate" type="date" placeholder="请选择入院日期" format="YYYY-MM-DD"
-                    value-format="YYYY-MM-DD" style="width: 300px;" />
+                <el-date-picker v-model="patientAdd.padmissiondate" type="date" placeholder="请选择入院日期"
+                    format="YYYY-MM-DD" value-format="YYYY-MM-DD" style="width: 300px;" />
             </el-form-item>
             <el-form-item label="出院日期" label-width="20%">
                 <el-date-picker v-model="patientAdd.pleavedate" type="date" placeholder="请选择出院日期" format="YYYY-MM-DD"
@@ -89,6 +87,24 @@
             <el-form-item label="科室名称" label-width="20%">
                 <el-select v-model="patientAdd.did" placeholder="请选择科室" style="width: 300px;">
                     <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
+                        :value="department.did" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="护士编号" label-width="20%">
+                <el-select v-model="patientAdd.nno" placeholder="请选择护士" style="width: 300px;">
+                    <el-option v-for="(nurse, index) in nurseList" :key="index" :label="nurse.nno"
+                        :value="nurse.did" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="病房号" label-width="20%">
+                <el-select v-model="patientAdd.did" placeholder="请选择科室" style="width: 300px;">
+                    <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
+                        :value="department.did" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="病床号" label-width="20%">
+                <el-select v-model="patientAdd.did" placeholder="请选择科室" style="width: 300px;">
+                    <el-option v-for="(nurse, index) in nurseList" :key="index" :label="department.dname"
                         :value="department.did" />
                 </el-select>
             </el-form-item>
@@ -120,10 +136,10 @@
                     <el-radio value="女" size="large">女</el-radio>
                 </el-radio-group>
             </el-form-item>
-            
+
             <el-form-item label="入院日期" label-width="20%">
-                <el-date-picker v-model="patientUpdate.padmissiondate" type="date" placeholder="请选择入院日期" format="YYYY-MM-DD"
-                    value-format="YYYY-MM-DD" style="width: 300px;" />
+                <el-date-picker v-model="patientUpdate.padmissiondate" type="date" placeholder="请选择入院日期"
+                    format="YYYY-MM-DD" value-format="YYYY-MM-DD" style="width: 300px;" />
             </el-form-item>
             <el-form-item label="出院日期" label-width="20%">
                 <el-date-picker v-model="patientUpdate.pleavedate" type="date" placeholder="请选择出院日期" format="YYYY-MM-DD"
@@ -157,6 +173,7 @@
 <script setup>
 import departmentApi from '@/api/departmentApi';
 import patientApi from '@/api/patientApi';
+import nurseApi from '@/api/nurseApi';
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
 
@@ -170,6 +187,9 @@ const pageInfo = ref({
 
 //所有科室
 const departmentList = ref([]);
+
+//该科室下的护士
+const nurseList = ref([])
 
 //添加对话框是否显示
 const addDialogShow = ref(false);
@@ -185,7 +205,10 @@ const patientAdd = ref({
     pleavedate: '',
     pstatus: '',
     ptelephone: '',
-    did: ''
+    did: '',
+    nno: '',
+    wnumber: '',
+    bnumber: ''
 })
 
 
@@ -243,6 +266,9 @@ function insert() {
                     pstatus: '',
                     ptelephone: '',
                     did: '',
+                    nno: '',
+                    wnumber: '',
+                    bnumber: ''
                 }
 
                 //刷新表格数据
@@ -273,7 +299,7 @@ function update() {
 }
 
 //定义方法根据id删除员工
-function deleteByPid (pid) {
+function deleteByPid(pid) {
     patientApi.delete(pid)
         .then(resp => {
             //判断-弹出消息-刷新表格
