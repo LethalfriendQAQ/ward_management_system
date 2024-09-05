@@ -93,7 +93,7 @@
             <el-form-item label="护士编号" label-width="20%">
                 <el-select v-model="patientAdd.nno" placeholder="请选择护士" style="width: 300px;">
                     <el-option v-for="(nurse, index) in nurseList" :key="index" :label="nurse.nno"
-                        :value="nurse.did" />
+                        :value="nurse.nno" />
                 </el-select>
             </el-form-item>
             <el-form-item label="病房号" label-width="20%">
@@ -174,7 +174,7 @@
 import departmentApi from '@/api/departmentApi';
 import patientApi from '@/api/patientApi';
 import nurseApi from '@/api/nurseApi';
-import { ref } from 'vue';
+import { ref,watch } from 'vue';
 import { ElMessage } from 'element-plus';
 
 let pageNow;
@@ -210,6 +210,21 @@ const patientAdd = ref({
     wnumber: '',
     bnumber: ''
 })
+
+//监听科室选择变化，获取对应科室的护士列表
+watch(() => patientAdd.value.did, (newDid) => {
+    if(newDid) {
+        //如果重新选择了科室，重置护士编号
+        patientAdd.value.nno = '';
+        //调用API获取该科室的护士列表
+        nurseApi.selectByDid(newDid)
+            .then(resp => {
+                nurseList.value = resp.data;
+            });
+    } else {
+        nurseList.value = []; //如果没有选择科室，则清空护士列表
+    }
+});
 
 
 

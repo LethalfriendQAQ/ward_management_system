@@ -23,7 +23,10 @@ const nurseApi = {
         });
     },
     selectByNid(nid) {
-        return service.get(`/user/nurse//${nid}`);
+        return service.get(`/user/nurse/byNid/${nid}`);
+    },
+    selectByDid(did) {
+        return service.get(`/user/nurse/byDid/${did}`);
     }
 }
 
