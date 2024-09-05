@@ -30,6 +30,16 @@ public class MyTest01 {
     }
 
     @Test
+    public void test13() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Patient p = new Patient(22L, "23232", "11", 23, "女", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 4, "1004", "405", "405-1");
+        System.out.println(patientService.update(p));
+    }
+
+
+
+
+    @Test
     public void test01() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Patient p = new Patient(null, "112", "11", 22, "女", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 2, "1001", "302", "1");

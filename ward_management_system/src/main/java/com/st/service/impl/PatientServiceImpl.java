@@ -36,7 +36,14 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public boolean update(Patient p) {
-        return patientMapper.update(p) == 1;
+        Patient originalPatient = patientMapper.selectByPid(p.getPid());
+        if (patientMapper.update(p) == 1) {
+            if (!(originalPatient.getBnumber().equals(p.getBnumber()))) {
+                bedMapper.updatePnoAndNnoByBnumber(null, null, originalPatient.getBnumber());
+            }
+            bedMapper.updatePnoAndNnoByBnumber(p.getPno(), p.getNno(), p.getBnumber());
+        }
+        return true;
     }
 
     @Override

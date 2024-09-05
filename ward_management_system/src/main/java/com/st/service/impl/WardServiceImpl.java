@@ -33,7 +33,7 @@ public class WardServiceImpl implements WardService {
                 bed.setWnumber(w.getWnumber()); //使用病房号
                 bed.setPno(null);
                 bed.setNno(null);
-                bed.setBnumber(w.getWnumber() + "-" + String.valueOf(i)); //为病床设置唯一编号
+                bed.setBnumber(w.getWnumber() + "-" + i); //为病床设置唯一编号
                 bedMapper.insert(bed);
 
             }
