@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.BedMapper">
+    <insert id="insert" parameterType="bed">
+        INSERT INTO `bed` (`bnumber`, `pno`, `nno`, `wnumber`) VALUES (#{bnumber}, #{pno}, #{nno}, #{wnumber})
+    </insert>
+    <update id="update" parameterType="bed">
+        UPDATE `bed`SET `bnumber`=#{bnumber}, `pno`=#{pno}, `nno`=#{nno}, `wnumber`=#{wnumber} WHERE `bid`=#{bid}
+    </update>
+    <delete id="delete">
+        DELETE FROM `bed` WHERE `bid`=#{bid}
+    </delete>
+    <select id="selectAll" resultType="bed">
+        SELECT * FROM `bed`
+    </select>
+    <select id="selectByBnumber" resultType="bed">
+        SELECT * FROM `bed` WHERE `bnumber`=#{bnumber}
+    </select>
+    <select id="selectByBid" resultType="bed">
+        SELECT * FROM `bed` WHERE `bid`=#{bid}
+    </select>
+    <select id="selectByWnumber" resultType="bed">
+        SELECT * FROM `bed` WHERE `wnumber`=#{wnumber}
+    </select>
+</mapper>
