@@ -17,13 +17,13 @@ public class MyTest04 {
 
     @Test
     public void test10() throws SteduException {
-        Ward ward = new Ward(null, "103", 1);
+        Ward ward = new Ward(null, "402", 4);
         System.out.println(wardService.insert(ward));
     }
 
     @Test
     public void test11() throws SteduException {
-        System.out.println(wardService.delete(3L));
+        System.out.println(wardService.delete(8L));
     }
 
     @Test

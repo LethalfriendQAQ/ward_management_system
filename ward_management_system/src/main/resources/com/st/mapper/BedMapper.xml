@@ -10,6 +10,9 @@
     <delete id="delete">
         DELETE FROM `bed` WHERE `bid`=#{bid}
     </delete>
+    <delete id="deleteByWnumber">
+        DELETE FROM `bed` WHERE `wnumber`=#{wnumber}
+    </delete>
     <select id="selectAll" resultType="bed">
         SELECT * FROM `bed`
     </select>

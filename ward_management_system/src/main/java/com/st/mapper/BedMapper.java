@@ -9,6 +9,7 @@ public interface BedMapper {
     int insert (Bed b);
     //根据ID删除
     int delete(Long bid);
+    int deleteByWnumber(String wnumber);
     //修改
     int update(Bed b);
     //查询所有护士

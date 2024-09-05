@@ -1,7 +1,9 @@
 package com.st.service.impl;
 
+import com.st.bean.Bed;
 import com.st.bean.Ward;
 import com.st.exception.SteduException;
+import com.st.mapper.BedMapper;
 import com.st.mapper.WardMapper;
 import com.st.service.WardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,31 @@ import java.util.List;
 public class WardServiceImpl implements WardService {
     @Autowired
     private WardMapper wardMapper;
+    @Autowired
+    private BedMapper bedMapper;
     @Override
     public boolean insert(Ward w) throws SteduException {
         if (wardMapper.selectByWnumber(w.getWnumber()) != null) {
             throw new SteduException("该病房已存在，无法重复添加");
         }
-        return wardMapper.insert(w) == 1;
+
+        if (wardMapper.insert(w) == 1) {
+            //获取新插入病房的ID
+            Long wid = w.getWid();
+
+            //插入三个病床
+            for (int i = 1; i<= 3; i++) {
+                Bed bed = new Bed();
+                bed.setWnumber(w.getWnumber()); //使用病房号
+                bed.setPno(null);
+                bed.setNno(null);
+                bed.setBnumber(String.valueOf(i)); //为病床设置唯一编号
+                bedMapper.insert(bed);
+
+            }
+            return true;
+        }
+        return true;
     }
 
     @Override
@@ -27,12 +48,13 @@ public class WardServiceImpl implements WardService {
             throw new SteduException("该病房不存在，无法删除");
         }
 
-        //判断该病房下是否有患者
+        //TODO 判断该病房下是否有患者
         //List<Ward> list = wardMapper.selectByDid(did);
         //if (list != null && !list.isEmpty()) {
         //    throw new SteduException("该部门内有患者，无法删除");
         //}
 
+        bedMapper.deleteByWnumber(wardMapper.selectByWid(wid).getWnumber());
         return wardMapper.delete(wid) == 1;
     }
 
