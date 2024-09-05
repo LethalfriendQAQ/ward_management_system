@@ -34,7 +34,11 @@ public class Patient {
     //科室编号
     private Integer did;
     //负责护士编号
-    private Integer nno;
+    private String nno;
+    //病房编号
+    private String wnumber;
+    //病床编号
+    private String bnumber;
     //所在科室信息
-    private Department department;
+    //private Department department;
 }

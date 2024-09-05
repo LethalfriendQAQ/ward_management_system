@@ -2,15 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.st.mapper.BedMapper">
     <insert id="insert" parameterType="bed">
-        INSERT INTO `bed` (`bnumber`, `pno`, `nno`, `wnumber`) VALUES (#{bnumber}, #{pno}, #{nno}, #{wnumber})
+        INSERT INTO `bed` (`bnumber`, `pno`, `nno`, `wnumber`)
+        VALUES (#{bnumber}, #{pno}, #{nno}, #{wnumber})
     </insert>
     <update id="update" parameterType="bed">
-        UPDATE `bed`SET `bnumber`=#{bnumber}, `pno`=#{pno}, `nno`=#{nno}, `wnumber`=#{wnumber} WHERE `bid`=#{bid}
+        UPDATE `bed`
+        SET
+            `bnumber`=#{bnumber},
+            `pno`=#{pno}, `nno`=#{nno},
+            `wnumber`=#{wnumber}
+        WHERE `bid`=#{bid}
     </update>
     <update id="updateWnumberByOldwnumber" parameterType="bed">
         UPDATE `bed`
         SET `wnumber` = #{newWnumber}
         WHERE `wnumber` = #{oldWnumber}
+    </update>
+    <update id="updatePnoAndNnoByBnumber" parameterType="bed">
+        UPDATE `bed`
+        SET
+            `pno`=#{pno},
+            `nno`=#{nno}
+        WHERE
+            `bnumber`=#{bnumber}
     </update>
     <delete id="delete">
         DELETE FROM `bed` WHERE `bid`=#{bid}

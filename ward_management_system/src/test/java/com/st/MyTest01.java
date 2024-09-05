@@ -2,24 +2,35 @@ package com.st;
 
 import com.st.bean.Patient;
 import com.st.mapper.PatientMapper;
+import com.st.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @SpringBootTest
 public class MyTest01 {
     @Autowired
     private PatientMapper patientMapper;
+    @Autowired
+    private PatientService patientService;
 
 
     @Test
+    public void test11() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Patient p = new Patient(null, "112", "11", 22, "女", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 2, "1001", "302", "302-2");
+        System.out.println(patientService.insert(p));
+    }
+
+    @Test
     public void test01() throws ParseException {
-        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        //Patient p = new Patient(null, "112", "11", 22, "male", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 2);
-        //int result = patientMapper.insert(p);
-        //System.out.println(result);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Patient p = new Patient(null, "112", "11", 22, "女", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 2, "1001", "302", "1");
+        int result = patientMapper.insert(p);
+        System.out.println(result);
     }
 
     @Test

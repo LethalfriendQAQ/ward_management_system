@@ -33,7 +33,7 @@ public class WardServiceImpl implements WardService {
                 bed.setWnumber(w.getWnumber()); //使用病房号
                 bed.setPno(null);
                 bed.setNno(null);
-                bed.setBnumber(String.valueOf(i)); //为病床设置唯一编号
+                bed.setBnumber(w.getWnumber() + "-" + String.valueOf(i)); //为病床设置唯一编号
                 bedMapper.insert(bed);
 
             }
@@ -70,8 +70,6 @@ public class WardServiceImpl implements WardService {
             throw new SteduException("修改之后的病房号和其他病房号重复，不允许修改");
         }
         bedMapper.updateWnumberByOldwnumber(originalWard.getWnumber(), w.getWnumber());
-        System.out.println("Old Wnumber: " + originalWard.getWnumber());
-        System.out.println("New Wnumber: " + w.getWnumber());
 
         return wardMapper.update(w) == 1;
     }

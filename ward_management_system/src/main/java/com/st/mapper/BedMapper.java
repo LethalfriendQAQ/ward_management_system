@@ -14,6 +14,7 @@ public interface BedMapper {
     //修改
     int update(Bed b);
     int updateWnumberByOldwnumber(@Param("oldWnumber") String oldWnumber, @Param("newWnumber") String newWnumber);
+    int updatePnoAndNnoByBnumber(@Param("pno") String pno, @Param("nno") String nno, @Param("bnumber") String bnumber);
     //查询所有护士
     List<Bed> selectAll();
     //根据病房号查询
