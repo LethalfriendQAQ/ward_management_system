@@ -10,7 +10,7 @@
                     <el-input v-model="pname" placeholder="请输入要搜索的姓名" @input="selectByPage(1);" />
                 </el-form-item>
             </el-form>
-            <el-table :data="pageInfo.list" border style="width: 100%">
+            <el-table :data="pageInfo.list" border style="width: 100%" >
                 <el-table-column prop="pid" label="ID" width="50px" />
                 <el-table-column prop="pno" label="编号" />
                 <el-table-column prop="pname" label="姓名" />
@@ -26,6 +26,11 @@
                 </el-table-column>
                 <el-table-column prop="ptelephone" label="电话" />
                 <el-table-column prop="did" label="科室编号" width="90px" />
+
+                <el-table-column prop="nno" label="护士编号" width="90px" />
+                <el-table-column prop="wnumber" label="病房号" width="90px" />
+                <el-table-column prop="bnumber" label="病床号" width="90px" />
+
                 <el-table-column label="操作">
                     <template #default="scope">
                         <el-button type="primary" size="small" @click="selectByPid(scope.row.pid)" round>修改</el-button>

@@ -25,7 +25,7 @@ public class PatientController {
         if (pageNum == null) {
             pageNum = 1;
         }
-        PageHelper.startPage(pageNum, 5);
+        PageHelper.startPage(pageNum, 10);
         List<Patient> patientList = patientService.selectByPname(pname);
         PageInfo<Patient> pageInfo = new PageInfo<>(patientList);
         return RespBean.ok("查询成功", pageInfo);
