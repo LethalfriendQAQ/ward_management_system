@@ -15,10 +15,12 @@ public interface BedMapper {
     int update(Bed b);
     int updateWnumberByOldwnumber(@Param("oldWnumber") String oldWnumber, @Param("newWnumber") String newWnumber);
     int updatePnoAndNnoByBnumber(@Param("pno") String pno, @Param("nno") String nno, @Param("bnumber") String bnumber);
+    int updateBnumber(@Param("oldBnumber") String oldBnumber, @Param("newBnumber") String newBnumber);
+
     //查询所有护士
     List<Bed> selectAll();
     //根据病房号查询
     Bed selectByBnumber(String bnumber);
-    Bed selectByWnumber(String wnumber);
+    List<Bed> selectByWnumber(String wnumber);
     Bed selectByBid(Long bid);
 }

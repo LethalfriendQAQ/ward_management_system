@@ -69,8 +69,21 @@ public class WardServiceImpl implements WardService {
         if(w1 != null && w1.getWid() != w.getWid()) {
             throw new SteduException("修改之后的病房号和其他病房号重复，不允许修改");
         }
-        bedMapper.updateWnumberByOldwnumber(originalWard.getWnumber(), w.getWnumber());
 
+        bedMapper.updateWnumberByOldwnumber(originalWard.getWnumber(), w.getWnumber());
+        //更新病床表中的 bnumber
+        List<Bed> beds = bedMapper.selectByWnumber(w.getWnumber()); // 获取该病房号下的所有病床
+        if (beds != null && !beds.isEmpty()) {
+            for (int i = 0; i < beds.size(); i++) {
+                Bed bed = beds.get(i);
+                String oldBnumber = bed.getBnumber();
+                String[] parts = oldBnumber.split("-"); // 假设病床号格式为 101-1, 102-2 等
+                if (parts.length == 2) {
+                    String newBnumber = w.getWnumber() + "-" + parts[1]; // 修改前半部分为新的 wnumber
+                    bedMapper.updateBnumber(bed.getBnumber(), newBnumber); // 更新 bnumber
+                }
+            }
+        }
         return wardMapper.update(w) == 1;
     }
 

@@ -7,7 +7,7 @@
             <el-table-column prop="did" label="所属科室" />
             <el-table-column label="操作">
                 <template #default="scope">
-                    <el-button type="primary" size="small" @click="" round>修改</el-button>
+                    <el-button type="primary" size="small" @click="selectBywid(scope.row.wid)" round>修改</el-button>
                     <el-popconfirm title="你确定要删除该病房吗？" confirm-button-text="确认" cancel-button-text="取消" width="200px"
                         @confirm="">
                         <template #reference>
@@ -38,6 +38,25 @@
     </el-dialog>
     <!-- 添加对话框结束 -->
 
+    <!-- 修改对话框开始 -->
+    <el-dialog v-model="updateDialogShow" title="添加病房" width="500">
+        <el-form>
+            <el-form-item label="病房号" lable-width="20%">
+                <el-input v-model="wardUpdate.wnumber" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="所属科室" lable-width="20%">
+                <el-input v-model="wardUpdate.did" autocomplete="off" />
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="updateDialogShow = false">取消</el-button>
+                <el-button type="primary" @click="update">确认</el-button>
+            </div>
+        </template>
+    </el-dialog>
+    <!-- 修改对话框结束 -->
+
 
 </template>
 <script setup>
@@ -53,8 +72,14 @@ const wardAdd = ref({
     did: ''
 });
 
-const addDialogShow = ref(false);
+const wardUpdate = ref({
+    wid: '',
+    wnumber: '',
+    did: ''
+});
 
+const addDialogShow = ref(false);
+const updateDialogShow = ref(false);
 function selectAll() {
     wardApi.selectAll()
         .then(resp => {
@@ -91,6 +116,41 @@ function insert() {
             }
 
         });
+}
+
+//定义方法完成病房修改
+function update() {
+    wardApi.update(wardUpdate.value)
+        .then(resp => {
+            if (resp.code == 10000) {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'success',
+                    duration: 1200
+                });
+                //隐藏对话框
+                updateDialogShow.value = false;
+                //刷新表格数据
+                selectAll();
+            } else {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'error',
+                    duration: 2000
+                });
+            }
+        });
+}
+
+function selectBywid(wid) {
+    wardApi.selectByWid(wid)
+        .then(resp => {
+            wardUpdate.value = resp.data;
+            //显示修改对话框
+            updateDialogShow.value = true
+        })
 }
 
 selectAll();

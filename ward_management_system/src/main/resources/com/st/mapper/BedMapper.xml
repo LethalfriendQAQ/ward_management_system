@@ -26,6 +26,11 @@
         WHERE
             `bnumber`=#{bnumber}
     </update>
+    <update id="updateBnumber">
+        UPDATE bed
+        SET bnumber = #{newBnumber}
+        WHERE bnumber = #{oldBnumber}
+    </update>
     <delete id="delete">
         DELETE FROM `bed` WHERE `bid`=#{bid}
     </delete>
