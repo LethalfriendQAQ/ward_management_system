@@ -60,7 +60,7 @@
     <el-dialog v-model="updateDialogShow" title="添加护士" width="500">
         <el-form>
             <el-form-item label="编号" label-width="20%">
-                <el-input v-model="nurseUpdate.nno" autocomplete="off" />
+                <el-input v-model="nurseUpdate.nno" disabled="true" autocomplete="off" />
             </el-form-item>
             <el-form-item label="姓名" label-width="20%">
                 <el-input v-model="nurseUpdate.nname" autocomplete="off" />
