@@ -9,7 +9,8 @@
         UPDATE `bed`
         SET
             `bnumber`=#{bnumber},
-            `pno`=#{pno}, `nno`=#{nno},
+            `pno`=#{pno},
+            `nno`=#{nno},
             `wnumber`=#{wnumber}
         WHERE `bid`=#{bid}
     </update>

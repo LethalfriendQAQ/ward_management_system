@@ -162,8 +162,6 @@ function selectAll() {
 function deleteByDid(did) {
     departmentApi.delete(did)
         .then(resp => {
-            console.log(resp);
-            
             //判断-弹出消息-刷新表格
             if (resp.code == 10000) {
                 //弹出消息

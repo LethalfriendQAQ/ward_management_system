@@ -11,7 +11,7 @@
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="selectByBid(scope.row.bid)" round>修改</el-button>
                     <el-popconfirm title="你确定要删除该科室吗？" confirm-button-text="确认" cancel-button-text="取消"
-                            width="200px" @confirm="deleteByWid(scope.row.did)">
+                            width="200px" @confirm="deleteByBid(scope.row.bid)">
                             <template #reference>
                                 <el-button size="small" type="danger" round>删除</el-button>
                             </template>
@@ -155,6 +155,31 @@ function selectAll() {
         .then(resp => {
             bedList.value = resp.data;
         })
+}
+
+//定义方法根据部门id删除病房
+function deleteByBid(bid) {
+    bedApi.delete(bid)
+        .then(resp => {
+            //判断-弹出消息-刷新表格
+            if (resp.code == 10000) {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'success',
+                    duration: 1200
+                });
+                //刷新表格
+                selectAll();
+            } else {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'error',
+                    duration: 2000
+                });
+            }
+        });
 }
 
 selectAll();
