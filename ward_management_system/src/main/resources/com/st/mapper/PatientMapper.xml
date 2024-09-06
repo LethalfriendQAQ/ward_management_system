@@ -30,7 +30,7 @@
         SELECT * FROM `patient`WHERE `pid`=#{pid}
     </select>
     <delete id="delete">
-        DELETE FROM `patient` WHERE `pid`=#{pid}
+        DELETE FROM `patient` WHERE `pid`=#{pid}*
     </delete>
     <select id="selectAll" resultType="patient">
         SELECT * FROM `patient`
@@ -42,6 +42,7 @@
                 `pname` LIKE concat('%', #{pname}, '%')
             </if>
         </where>
+        ORDER BY `pstatus`
     </select>
     <select id="selectByDid" resultType="patient">
         SELECT * FROM `patient` WHERE `did`=#{did}

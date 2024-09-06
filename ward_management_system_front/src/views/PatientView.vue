@@ -441,6 +441,7 @@ function selectByPid(pid) {
             //根据pid查询患者信息
             patientApi.selectByPid(pid)
                 .then(resp => {
+                    console.log(resp);
                     patientUpdate.value = resp.data;
                     //显示修改对话框
                     updateDialogShow.value = true;
