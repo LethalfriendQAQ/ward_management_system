@@ -22,7 +22,7 @@ public class NurseController {
         if (pageNum == null) {
             pageNum = 1;
         }
-        PageHelper.startPage(pageNum, 5);
+        PageHelper.startPage(pageNum, 10);
         List<Nurse> nurseList = nurseService.selectByNname(nname);
         PageInfo<Nurse> pageInfo = new PageInfo<>(nurseList);
         return RespBean.ok("查询成功", pageInfo);

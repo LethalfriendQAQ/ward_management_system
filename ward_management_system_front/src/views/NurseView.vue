@@ -36,8 +36,8 @@
             </el-form-item>
             <el-form-item label="所属科室" label-width="20%">
                 <el-select v-model="nurseAdd.did" placeholder="请选择科室" style="width: 300px;">
-                    <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
-                        :value="department.did" />
+                    <el-option v-for="department in departmentList" :key="department.did"
+                        :label="`${department.dname} (${department.did})`" :value="department.did" />
                 </el-select>
             </el-form-item>
         </el-form>
@@ -62,8 +62,8 @@
             </el-form-item>
             <el-form-item label="所属科室" label-width="20%">
                 <el-select v-model="nurseUpdate.did" placeholder="请选择科室" style="width: 300px;">
-                    <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
-                        :value="department.did" />
+                    <el-option v-for="department in departmentList" :key="department.did"
+                        :label="`${department.dname} (${department.did})`" :value="department.did" />
                 </el-select>
             </el-form-item>
         </el-form>

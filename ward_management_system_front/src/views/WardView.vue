@@ -1,6 +1,6 @@
 <template>
     <el-card style="max-width: 600px">
-        <el-button type="success" style="margin-bottom: 10px;" @click="addDialogShow = true;">添加</el-button>
+        <el-button type="success" style="margin-bottom: 10px;" @click="showAddDialog">添加</el-button>
         <el-table :data="sortedWardList" border style="width: 100%">
             <!-- 序号列 -->
             <el-table-column label="序号" width="60px">
@@ -29,12 +29,15 @@
     <el-dialog v-model="addDialogShow" title="添加病房" width="500">
         <el-form>
             <el-form-item label="所属科室" label-width="20%">
-                <el-input v-model="wardAdd.did" autocomplete="off" />
+                <el-select v-model="wardAdd.did" placeholder="请选择科室" style="width: 300px;">
+                    <el-option v-for="department in departmentList" :key="department.did"
+                        :label="`${department.dname} (${department.did})`" :value="department.did" />
+                </el-select>
             </el-form-item>
             <el-form-item label="病房号" label-width="20%">
                 <el-input v-model="wardAdd.wnumber" autocomplete="off" />
             </el-form-item>
-            
+
 
         </el-form>
         <template #footer>
@@ -48,13 +51,13 @@
 
     <!-- 修改对话框开始 -->
     <el-dialog v-model="updateDialogShow" title="修改病房" width="500">
-        <el-form>
+        <el-form> 
             <el-form-item label="病房号" label-width="20%">
                 <el-input v-model="wardUpdate.wnumber" autocomplete="off" />
             </el-form-item>
             <el-form-item label="所属科室" label-width="20%">
                 <el-input v-model="wardUpdate.did" autocomplete="off" />
-            </el-form-item>
+        </el-form-item>
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -73,6 +76,8 @@ import departmentApi from '@/api/departmentApi';
 import { ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 
+//所有科室
+const departmentList = ref([]);
 const wardList = ref([]);
 
 const wardAdd = ref({
@@ -95,6 +100,16 @@ function selectAll() {
         });
 
 }
+
+//查询所有科室并显示添加对话框
+function showAddDialog() {
+    departmentApi.selectAll()
+        .then(resp => {
+            departmentList.value = resp.data;
+            addDialogShow.value = true;
+        });
+}
+
 // sortedBedList 处理 bedList，按 bnumber 数字部分升序排序
 const sortedWardList = computed(() => {
     return [...wardList.value].sort((a, b) => {
@@ -168,17 +183,18 @@ function selectBywid(wid) {
     wardApi.selectByWid(wid)
         .then(resp => {
             wardUpdate.value = resp.data;
-            //显示修改对话框
-            updateDialogShow.value = true
-        })
+            // 显示修改对话框
+            updateDialogShow.value = true;
+        });
 }
+
 
 //定义方法根据部门id删除病房
 function deleteByWid(wid) {
     wardApi.delete(wid)
         .then(resp => {
             console.log(resp);
-            
+
             //判断-弹出消息-刷新表格
             if (resp.code == 10000) {
                 //弹出消息

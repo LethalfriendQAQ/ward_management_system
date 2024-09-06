@@ -31,7 +31,7 @@
                 <el-table-column prop="bnumber" label="病床号" width="90px" />
                 <el-table-column label="操作">
                     <template #default="scope">
-                        <el-button type="primary" size="small" @click="selectByPid(scope.row.pid)" round>修改</el-button>
+                        <el-button type="primary" size="small" @click="selectByPid(scope.row.pid)"  round>修改</el-button>
                         <el-popconfirm title="你确定要删除该患者吗？" confirm-button-text="确认" cancel-button-text="取消"
                             width="200px" @confirm="deleteByPid(scope.row.pid)">
                             <template #reference>
@@ -273,6 +273,36 @@ watch(() => patientAdd.value.did, (newDid) => {
     }
 });
 
+//监听科室选择变化，获取对应科室的护士列表
+watch(() => patientUpdate.value.did, (newDid) => {
+    if (newDid) {
+        //如果重新选择了科室，重置护士编号
+        patientUpdate.value.nno = '';
+        //调用API获取该科室的护士列表
+        nurseApi.selectByDid(newDid)
+            .then(resp => {
+                nurseList.value = resp.data;
+            });
+    } else {
+        nurseList.value = []; //如果没有选择科室，则清空护士列表
+    }
+});
+
+//监听科室选择变化，获取对应科室的病房列表
+watch(() => patientUpdate.value.did, (newDid) => {
+    if (newDid) {
+        //如果重新选择了科室，重置护士编号
+        patientUpdate.value.wnumber = '';
+        //调用API获取该科室的病房列表
+        wardApi.selectByDid(newDid)
+            .then(resp => {
+                wardList.value = resp.data;
+            });
+    } else {
+        wardList.value = []; //如果没有选择科室，则清空护士列表
+    }
+});
+
 // 监听病房号变化，获取对应病房的空闲病床列表
 // watch(() => patientAdd.value.wnumber, (newWnumber) => {
 //     if (newWnumber) {
@@ -394,6 +424,7 @@ function selectByPid(pid) {
         })
 
 }
+
 
 
 //默认查询首页
