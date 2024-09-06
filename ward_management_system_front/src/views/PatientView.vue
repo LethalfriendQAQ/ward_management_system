@@ -259,7 +259,7 @@ const patientUpdate = ref({
     did: ''
 });
 
-//监听科室选择变化，获取对应科室的护士列表
+//添加：监听科室选择变化，获取对应科室的护士列表
 watch(() => patientAdd.value.did, (newDid) => {
     if (newDid) {
         //如果重新选择了科室，重置护士编号
@@ -274,7 +274,7 @@ watch(() => patientAdd.value.did, (newDid) => {
     }
 });
 
-//监听科室选择变化，获取对应科室的病房列表
+//添加：监听科室选择变化，获取对应科室的病房列表
 watch(() => patientAdd.value.did, (newDid) => {
     if (newDid) {
         //如果重新选择了科室，重置护士编号
@@ -289,35 +289,39 @@ watch(() => patientAdd.value.did, (newDid) => {
     }
 });
 
-//监听科室选择变化，获取对应科室的护士列表
-watch(() => patientUpdate.value.did, (newDid) => {
-    if (newDid) {
-        //如果重新选择了科室，重置护士编号
-        patientUpdate.value.nno = '';
-        //调用API获取该科室的护士列表
-        nurseApi.selectByDid(newDid)
-            .then(resp => {
-                nurseList.value = resp.data;
-            });
-    } else {
-        nurseList.value = []; //如果没有选择科室，则清空护士列表
-    }
-});
 
-//监听科室选择变化，获取对应科室的病房列表
-watch(() => patientUpdate.value.did, (newDid) => {
-    if (newDid) {
-        //如果重新选择了科室，重置护士编号
-        patientUpdate.value.wnumber = '';
-        //调用API获取该科室的病房列表
-        wardApi.selectByDid(newDid)
-            .then(resp => {
-                wardList.value = resp.data;
-            });
-    } else {
-        wardList.value = []; //如果没有选择科室，则清空护士列表
-    }
-});
+// function updateSelectNnoAndWnumber() {
+//     //修改：监听科室选择变化，获取对应科室的护士列表
+// watch(() => patientUpdate.value.did, (newDid) => {
+//     if (newDid) {
+//         //如果重新选择了科室，重置护士编号
+//         patientUpdate.value.nno = '';
+//         //调用API获取该科室的护士列表
+//         nurseApi.selectByDid(newDid)
+//             .then(resp => {
+//                 nurseList.value = resp.data;
+//             });
+//     } else {
+//         nurseList.value = []; //如果没有选择科室，则清空护士列表
+//     }
+// });
+
+// //修改：监听科室选择变化，获取对应科室的病房列表
+// watch(() => patientUpdate.value.did, (newDid) => {
+//     if (newDid) {
+//         //如果重新选择了科室，重置护士编号
+//         patientUpdate.value.wnumber = '';
+//         //调用API获取该科室的病房列表
+//         wardApi.selectByDid(newDid)
+//             .then(resp => {
+//                 wardList.value = resp.data;
+//             });
+//     } else {
+//         wardList.value = []; //如果没有选择科室，则清空护士列表
+//     }
+// });
+// }
+
 
 // 监听病房号变化，获取对应病房的空闲病床列表
 // watch(() => patientAdd.value.wnumber, (newWnumber) => {
@@ -452,12 +456,22 @@ function selectByPid(pid) {
             //根据pid查询患者信息
             patientApi.selectByPid(pid)
                 .then(resp => {
-                    patientUpdate.value = resp.data;
-                    //显示修改对话框
-                    updateDialogShow.value = true;
+                    const patientData = resp.data;
+                    // 加载护士列表
+                    nurseApi.selectByDid(patientData.did)
+                        .then(nurseResp => {
+                            nurseList.value = nurseResp.data;
+                            // 加载病房列表
+                            wardApi.selectByDid(patientData.did)
+                                .then(wardResp => {
+                                    wardList.value = wardResp.data;
+                                    // 数据全部加载完成后再绑定并打开对话框
+                                    patientUpdate.value = patientData;
+                                    updateDialogShow.value = true;
+                                });
+                        });
                 });
         })
-
 }
 
 
