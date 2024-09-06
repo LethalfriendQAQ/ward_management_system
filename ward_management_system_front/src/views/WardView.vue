@@ -10,7 +10,12 @@
             </el-table-column>
             <!-- <el-table-column prop="wid" label="ID" width="50px" /> -->
             <el-table-column prop="wnumber" label="病房号" />
-            <el-table-column prop="did" label="所属科室" />
+            <el-table-column prop="did" label="所属科室">
+                <template #default="scope">
+                    <!-- 查找当前行科室ID对应的科室名称 -->
+                    {{ getDepartmentName(scope.row.did) }} ({{ scope.row.did }})
+                </template>
+            </el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="selectBywid(scope.row.wid)" round>修改</el-button>
@@ -51,13 +56,13 @@
 
     <!-- 修改对话框开始 -->
     <el-dialog v-model="updateDialogShow" title="修改病房" width="500">
-        <el-form> 
+        <el-form>
             <el-form-item label="病房号" label-width="20%">
                 <el-input v-model="wardUpdate.wnumber" autocomplete="off" />
             </el-form-item>
             <el-form-item label="所属科室" label-width="20%">
                 <el-input v-model="wardUpdate.did" autocomplete="off" />
-        </el-form-item>
+            </el-form-item>
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -99,6 +104,25 @@ function selectAll() {
             wardList.value = resp.data;
         });
 
+}
+
+departmentApi.selectAll()
+    .then(resp => {
+        departmentList.value = resp.data;
+        console.log(departmentList.value); // 打印科室列表，确保数据正确
+    });
+
+wardApi.selectAll()
+    .then(resp => {
+        wardList.value = resp.data;
+        console.log(wardList.value); // 打印病房列表
+    });
+
+
+//根据科室ID返回科室名称
+function getDepartmentName(did) {
+    const department = departmentList.value.find(dep => dep.did === did);
+    return department ? department.dname : '未知科室';
 }
 
 //查询所有科室并显示添加对话框

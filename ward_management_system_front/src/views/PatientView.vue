@@ -15,7 +15,7 @@
                 <el-table-column prop="pno" label="编号" />
                 <el-table-column prop="pname" label="姓名" />
                 <el-table-column prop="page" label="年龄" width="70px" />
-                <el-table-column prop="pgender" label="性别" />
+                <el-table-column prop="pgender" label="性别" width="70px" />
                 <el-table-column prop="padmissiondate" label="入院时间" />
                 <el-table-column prop="pleavedate" label="出院时间" />
                 <el-table-column prop="pstatus" label="住院状态" width="90px">
@@ -25,7 +25,12 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="ptelephone" label="电话" />
-                <el-table-column prop="did" label="科室编号" width="90px" />
+                <el-table-column prop="did" label="所属科室">
+                <template #default="scope">
+                    <!-- 查找当前行科室ID对应的科室名称 -->
+                    {{ getDepartmentName(scope.row.did) }} ({{ scope.row.did }})
+                </template>
+            </el-table-column>
                 <el-table-column prop="nno" label="护士编号" width="90px" />
                 <el-table-column prop="wnumber" label="病房号" width="90px" />
                 <el-table-column prop="bnumber" label="病床号" width="90px" />
@@ -86,8 +91,8 @@
             </el-form-item>
             <el-form-item label="科室名称" label-width="20%">
                 <el-select v-model="patientAdd.did" placeholder="请选择科室" style="width: 300px;">
-                    <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
-                        :value="department.did" />
+                    <el-option v-for="department in departmentList" :key="department.did"
+                        :label="`${department.dname} (${department.did})`" :value="department.did" />
                 </el-select>
             </el-form-item>
             <el-form-item label="护士编号" label-width="20%">
@@ -153,8 +158,8 @@
             </el-form-item>
             <el-form-item label="科室名称" label-width="20%">
                 <el-select v-model="patientUpdate.did" placeholder="请选择科室" style="width: 300px;">
-                    <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
-                        :value="department.did" />
+                    <el-option v-for="department in departmentList" :key="department.did"
+                        :label="`${department.dname} (${department.did})`" :value="department.did" />
                 </el-select>
             </el-form-item>
             <el-form-item label="护士编号" label-width="20%">
@@ -321,6 +326,25 @@ watch(() => patientUpdate.value.did, (newDid) => {
 // });
 
 
+
+departmentApi.selectAll()
+    .then(resp => {
+        departmentList.value = resp.data;
+        console.log(departmentList.value); // 打印科室列表，确保数据正确
+    });
+
+wardApi.selectAll()
+    .then(resp => {
+        wardList.value = resp.data;
+        console.log(wardList.value); // 打印病房列表
+    });
+
+
+//根据科室ID返回科室名称
+function getDepartmentName(did) {
+    const department = departmentList.value.find(dep => dep.did === did);
+    return department ? department.dname : '未知科室';
+}
 //分页显示
 function selectByPage(pageNum) {
     patientApi.selectByPage(pageNum, pname.value)

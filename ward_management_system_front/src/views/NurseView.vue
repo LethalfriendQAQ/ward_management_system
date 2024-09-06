@@ -5,7 +5,12 @@
             <el-table-column prop="nid" label="ID" width="50px" />
             <el-table-column prop="nno" label="编号" />
             <el-table-column prop="nname" label="姓名" />
-            <el-table-column prop="did" label="所属科室" />
+            <el-table-column prop="did" label="所属科室">
+                <template #default="scope">
+                    <!-- 查找当前行科室ID对应的科室名称 -->
+                    {{ getDepartmentName(scope.row.did) }} ({{ scope.row.did }})
+                </template>
+            </el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="selectByNid(scope.row.nid)" round>修改</el-button>
@@ -82,6 +87,7 @@ import departmentApi from '@/api/departmentApi';
 import nurseApi from '@/api/nurseApi';
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
+import wardApi from '@/api/wardApi';
 
 let pageNow;
 const nname = ref('');
@@ -120,6 +126,24 @@ function selectByPage(pageNum) {
         });
 }
 
+departmentApi.selectAll()
+    .then(resp => {
+        departmentList.value = resp.data;
+        console.log(departmentList.value); // 打印科室列表，确保数据正确
+    });
+
+wardApi.selectAll()
+    .then(resp => {
+        wardList.value = resp.data;
+        console.log(wardList.value); // 打印病房列表
+    });
+
+
+//根据科室ID返回科室名称
+function getDepartmentName(did) {
+    const department = departmentList.value.find(dep => dep.did === did);
+    return department ? department.dname : '未知科室';
+}
 //查询所有科室并显示添加对话框
 function showAddDialog() {
     departmentApi.selectAll()
