@@ -289,59 +289,6 @@ watch(() => patientAdd.value.did, (newDid) => {
     }
 });
 
-
-// function updateSelectNnoAndWnumber() {
-//     //修改：监听科室选择变化，获取对应科室的护士列表
-// watch(() => patientUpdate.value.did, (newDid) => {
-//     if (newDid) {
-//         //如果重新选择了科室，重置护士编号
-//         patientUpdate.value.nno = '';
-//         //调用API获取该科室的护士列表
-//         nurseApi.selectByDid(newDid)
-//             .then(resp => {
-//                 nurseList.value = resp.data;
-//             });
-//     } else {
-//         nurseList.value = []; //如果没有选择科室，则清空护士列表
-//     }
-// });
-
-// //修改：监听科室选择变化，获取对应科室的病房列表
-// watch(() => patientUpdate.value.did, (newDid) => {
-//     if (newDid) {
-//         //如果重新选择了科室，重置护士编号
-//         patientUpdate.value.wnumber = '';
-//         //调用API获取该科室的病房列表
-//         wardApi.selectByDid(newDid)
-//             .then(resp => {
-//                 wardList.value = resp.data;
-//             });
-//     } else {
-//         wardList.value = []; //如果没有选择科室，则清空护士列表
-//     }
-// });
-// }
-
-
-// 监听病房号变化，获取对应病房的空闲病床列表
-// watch(() => patientAdd.value.wnumber, (newWnumber) => {
-//     if (newWnumber) {
-//         // 如果重新选择了病房，重置病床编号
-//         patientAdd.value.bnumber = '';
-//         // 调用API获取该病房下未被分配的病床
-//         bedApi.selectFreeBedsByWnumber(newWnumber)
-//             .then(resp => {
-//                 console.log(resp);
-
-//                 bedList.value = resp.data; // 更新病床列表
-//             });
-//     } else {
-//         bedList.value = []; // 如果没有选择病房，清空病床列表
-//     }
-// });
-
-
-
 departmentApi.selectAll()
     .then(resp => {
         departmentList.value = resp.data;
