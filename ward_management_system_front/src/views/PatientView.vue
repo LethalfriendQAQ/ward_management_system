@@ -7,8 +7,19 @@
                     <el-button type="primary" @click="showAddDialog">添加</el-button>
                 </el-form-item>
                 <el-form-item style="float: right;">
+                    <el-radio-group v-model="radio1" @change="">
+                        <el-radio-button label="所有" value="" />
+                        <el-radio-button label="住院中" value="" />
+                        <el-radio-button label="已出院" value="" />
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item style="float: right;">
+                    <el-input v-model="pname" placeholder="搜索对应科室下的患者" @input="" />
+                </el-form-item>
+                <el-form-item style="float: right;">
                     <el-input v-model="pname" placeholder="请输入要搜索的姓名" @input="selectByPage(1);" />
                 </el-form-item>
+
             </el-form>
             <el-table :data="pageInfo.list" border style="width: 100%">
                 <el-table-column prop="pid" label="ID" width="50px" />
@@ -26,17 +37,17 @@
                 </el-table-column>
                 <el-table-column prop="ptelephone" label="电话" />
                 <el-table-column prop="did" label="所属科室">
-                <template #default="scope">
-                    <!-- 查找当前行科室ID对应的科室名称 -->
-                    {{ getDepartmentName(scope.row.did) }} ({{ scope.row.did }})
-                </template>
-            </el-table-column>
+                    <template #default="scope">
+                        <!-- 查找当前行科室ID对应的科室名称 -->
+                        {{ getDepartmentName(scope.row.did) }} ({{ scope.row.did }})
+                    </template>
+                </el-table-column>
                 <el-table-column prop="nno" label="护士编号" width="90px" />
                 <el-table-column prop="wnumber" label="病房号" width="90px" />
                 <el-table-column prop="bnumber" label="病床号" width="90px" />
                 <el-table-column label="操作">
                     <template #default="scope">
-                        <el-button type="primary" size="small" @click="selectByPid(scope.row.pid)"  round>修改</el-button>
+                        <el-button type="primary" size="small" @click="selectByPid(scope.row.pid)" round>修改</el-button>
                         <el-popconfirm title="你确定要将该患者设置为出院吗？" confirm-button-text="确认" cancel-button-text="取消"
                             width="200px" @confirm="deleteByPid(scope.row.pid)">
                             <template #reference>
@@ -317,7 +328,7 @@ watch(() => patientUpdate.value.did, (newDid) => {
 //         bedApi.selectFreeBedsByWnumber(newWnumber)
 //             .then(resp => {
 //                 console.log(resp);
-                
+
 //                 bedList.value = resp.data; // 更新病床列表
 //             });
 //     } else {
@@ -441,7 +452,6 @@ function selectByPid(pid) {
             //根据pid查询患者信息
             patientApi.selectByPid(pid)
                 .then(resp => {
-                    console.log(resp);
                     patientUpdate.value = resp.data;
                     //显示修改对话框
                     updateDialogShow.value = true;
