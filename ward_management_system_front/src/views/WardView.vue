@@ -1,8 +1,14 @@
 <template>
     <el-card style="max-width: 600px">
         <el-button type="success" style="margin-bottom: 10px;" @click="addDialogShow = true;">添加</el-button>
-        <el-table :data="wardList" border style="width: 100%">
-            <el-table-column prop="wid" label="ID" width="50px" />
+        <el-table :data="sortedWardList" border style="width: 100%">
+            <!-- 序号列 -->
+            <el-table-column label="序号" width="60px">
+                <template #default="scope">
+                    {{ scope.$index + 1 }}
+                </template>
+            </el-table-column>
+            <!-- <el-table-column prop="wid" label="ID" width="50px" /> -->
             <el-table-column prop="wnumber" label="病房号" />
             <el-table-column prop="did" label="所属科室" />
             <el-table-column label="操作">
@@ -22,12 +28,13 @@
     <!-- 添加对话框开始 -->
     <el-dialog v-model="addDialogShow" title="添加病房" width="500">
         <el-form>
-            <el-form-item label="病房号" label-width="20%">
-                <el-input v-model="wardAdd.wnumber" autocomplete="off" />
-            </el-form-item>
             <el-form-item label="所属科室" label-width="20%">
                 <el-input v-model="wardAdd.did" autocomplete="off" />
             </el-form-item>
+            <el-form-item label="病房号" label-width="20%">
+                <el-input v-model="wardAdd.wnumber" autocomplete="off" />
+            </el-form-item>
+            
 
         </el-form>
         <template #footer>
@@ -63,7 +70,7 @@
 <script setup>
 import wardApi from '@/api/wardApi';
 import departmentApi from '@/api/departmentApi';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 
 const wardList = ref([]);
@@ -88,6 +95,18 @@ function selectAll() {
         });
 
 }
+// sortedBedList 处理 bedList，按 bnumber 数字部分升序排序
+const sortedWardList = computed(() => {
+    return [...wardList.value].sort((a, b) => {
+        // 提取病床号中数字部分进行排序
+        const numA = a.wnumber.split('-').map(Number); // '101-1' => [101, 1]
+        const numB = b.wnumber.split('-').map(Number); // '101-2' => [101, 2]
+        if (numA[0] === numB[0]) {
+            return numA[1] - numB[1]; // 比较病床号的后缀数字
+        }
+        return numA[0] - numB[0]; // 比较病房号
+    });
+});
 
 //定义方法完成病房添加
 function insert() {

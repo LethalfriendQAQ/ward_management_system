@@ -30,12 +30,13 @@
     <!-- 添加对话框开始 -->
     <el-dialog v-model="addDialogShow" title="添加病床" width="500">
         <el-form>
-            <el-form-item label="病床号" label-width="20%">
-                <el-input v-model="bedAdd.bnumber" autocomplete="off" />
-            </el-form-item>
             <el-form-item label="病房号" label-width="20%">
                 <el-input v-model="bedAdd.wnumber" autocomplete="off" />
             </el-form-item>
+            <el-form-item label="病床号" label-width="20%">
+                <el-input v-model="bedAdd.bnumber" autocomplete="off" />
+            </el-form-item>
+            
         </el-form>
         <template #footer>
             <div class="dialog-footer">
