@@ -1,7 +1,7 @@
 <template>
     <el-card style="max-width: 600px">
         <el-button type="success" style="margin-bottom: 10px;" @click="addDialogShow = true;">添加</el-button>
-        <el-table :data="departmentlist" border style="width: 100%">
+        <el-table :data="departmentList" border style="width: 100%">
             <el-table-column prop="did" label="ID" width="50px" />
             <el-table-column prop="dname" label="科室名称" />
             <el-table-column prop="dlocation" label="科室位置" />
@@ -41,10 +41,10 @@
      <!-- 修改对话框开始 -->
     <el-dialog v-model="updateDialogShow" title="添加部门" width="500">
         <el-form>
-            <el-form-item label="部门名称" lable-width="20%">
+            <el-form-item label="部门名称" label-width="20%">
                 <el-input v-model="departmentUpdate.dname" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="部门位置" lable-width="20%">
+            <el-form-item label="部门位置" label-width="20%">
                 <el-input v-model="departmentUpdate.dlocation" autocomplete="off" />
             </el-form-item>
         </el-form>
@@ -62,7 +62,7 @@ import departmentApi from '@/api/departmentApi';
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 
-const departmentlist = ref([]);
+const departmentList = ref([]);
 //添加对话框是否显示
 const addDialogShow = ref(false);
 //修改对话框是否显示
@@ -153,7 +153,7 @@ function insert() {
 function selectAll() {
     departmentApi.selectAll()
         .then(resp => {
-            departmentlist.value = resp.data;
+            departmentList.value = resp.data;
 
         })
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.st.mapper.BedMapper">
     <insert id="insert" parameterType="bed">
         INSERT INTO `bed` (`bnumber`, `pno`, `nno`, `wnumber`)
-        VALUES (#{bnumber}, #{pno}, #{nno}, #{wnumber})
+        VALUES (#{bnumber}, null, null, #{wnumber})
     </insert>
     <update id="update" parameterType="bed">
         UPDATE `bed`
