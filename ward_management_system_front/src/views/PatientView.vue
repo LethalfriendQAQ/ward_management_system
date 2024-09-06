@@ -37,10 +37,10 @@
                 <el-table-column label="操作">
                     <template #default="scope">
                         <el-button type="primary" size="small" @click="selectByPid(scope.row.pid)"  round>修改</el-button>
-                        <el-popconfirm title="你确定要删除该患者吗？" confirm-button-text="确认" cancel-button-text="取消"
+                        <el-popconfirm title="你确定要将该患者设置为出院吗？" confirm-button-text="确认" cancel-button-text="取消"
                             width="200px" @confirm="deleteByPid(scope.row.pid)">
                             <template #reference>
-                                <el-button size="small" type="danger" round>删除</el-button>
+                                <el-button size="small" type="danger" round>出院</el-button>
                             </template>
                         </el-popconfirm>
                     </template>

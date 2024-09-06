@@ -10,8 +10,16 @@
             </el-table-column>
             <!-- <el-table-column prop="bid" label="ID" width="50px" /> -->
             <el-table-column prop="bnumber" label="病床号" sortable="custom" />
-            <el-table-column prop="pno" label="患者编号" />
-            <el-table-column prop="nno" label="负责护士" />
+            <el-table-column prop="pno" label="患者编号">
+                <template #default="scope">
+                    {{ scope.row.pno ? scope.row.pno : '空' }}
+                </template>
+            </el-table-column>
+            <el-table-column prop="nno" label="负责护士">
+                <template #default="scope">
+                    {{ scope.row.nno ? scope.row.nno : '空' }}
+                </template>
+            </el-table-column>
             <el-table-column prop="wnumber" label="病房号" />
             <el-table-column label="操作">
                 <template #default="scope">
