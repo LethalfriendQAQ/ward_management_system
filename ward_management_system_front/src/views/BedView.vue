@@ -1,21 +1,27 @@
 <template>
-    <el-card style="max-width: 800px">
+    <el-card style="max-width: 850px">
         <el-button type="success" style="margin-bottom: 10px;" @click="addDialogShow = true;">添加</el-button>
-        <el-table :data="bedList" border style="width: 100%">
-            <el-table-column prop="bid" label="ID" width="50px" />
-            <el-table-column prop="bnumber" label="病床号" />
+        <el-table :data="sortedBedList" border style="width: 100%">
+            <!-- 序号列 -->
+            <el-table-column label="序号" width="60px">
+                <template #default="scope">
+                    {{ scope.$index + 1 }}
+                </template>
+            </el-table-column>
+            <!-- <el-table-column prop="bid" label="ID" width="50px" /> -->
+            <el-table-column prop="bnumber" label="病床号" sortable="custom" />
             <el-table-column prop="pno" label="患者编号" />
             <el-table-column prop="nno" label="负责护士" />
             <el-table-column prop="wnumber" label="病房号" />
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button type="primary" size="small" @click="selectByBid(scope.row.bid)" round>修改</el-button>
-                    <el-popconfirm title="你确定要删除该科室吗？" confirm-button-text="确认" cancel-button-text="取消"
-                            width="200px" @confirm="deleteByBid(scope.row.bid)">
-                            <template #reference>
-                                <el-button size="small" type="danger" round>删除</el-button>
-                            </template>
-                        </el-popconfirm>
+                    <el-popconfirm title="你确定要删除该科室吗？" confirm-button-text="确认" cancel-button-text="取消" width="200px"
+                        @confirm="deleteByBid(scope.row.bid)">
+                        <template #reference>
+                            <el-button size="small" type="danger" round>删除</el-button>
+                        </template>
+                    </el-popconfirm>
                 </template>
             </el-table-column>
         </el-table>
@@ -41,8 +47,8 @@
     <!-- 添加对话框结束 -->
 
 
-     <!-- 修改对话框开始 -->
-     <el-dialog v-model="updateDialogShow" title="修改病床" width="500">
+    <!-- 修改对话框开始 -->
+    <el-dialog v-model="updateDialogShow" title="修改病床" width="500">
         <el-form>
             <el-form-item label="病床号" label-width="20%">
                 <el-input v-model="bedUpdate.bnumber" autocomplete="off" />
@@ -68,7 +74,7 @@
 </template>
 <script setup>
 import bedApi from '@/api/bedApi';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 
 const bedList = ref([]);
@@ -85,6 +91,20 @@ const bedUpdate = ref({
     nno: '',
     wnumber: ''
 });
+
+// sortedBedList 处理 bedList，按 bnumber 数字部分升序排序
+const sortedBedList = computed(() => {
+    return [...bedList.value].sort((a, b) => {
+        // 提取病床号中数字部分进行排序
+        const numA = a.bnumber.split('-').map(Number); // '101-1' => [101, 1]
+        const numB = b.bnumber.split('-').map(Number); // '101-2' => [101, 2]
+        if (numA[0] === numB[0]) {
+            return numA[1] - numB[1]; // 比较病床号的后缀数字
+        }
+        return numA[0] - numB[0]; // 比较病房号
+    });
+});
+
 //定义方法完成病床添加
 function insert() {
     bedApi.insert(bedAdd.value)
@@ -184,6 +204,4 @@ function deleteByBid(bid) {
 
 selectAll();
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>
