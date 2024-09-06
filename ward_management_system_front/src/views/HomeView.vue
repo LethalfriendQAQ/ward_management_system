@@ -27,6 +27,7 @@
                 <el-icon><el-icon><HomeFilled /></el-icon></el-icon><span>病房管理</span>
               </template>
               <el-menu-item index="/ward" style="background-color: #3a3646;">病房管理</el-menu-item>
+              <el-menu-item index="/bed" style="background-color: #3a3646;">病床管理</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-aside>
