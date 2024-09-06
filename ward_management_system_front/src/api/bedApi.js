@@ -21,6 +21,9 @@ const bedApi = {
     //根据ID查询
     selectByBid(bid) {
         return service.get(`/user/bed/${bid}`);
+    },
+    selectFreeBedsByWnumber(wnumber) {
+        return service.get('/user/bed/selectFreeBedsByWnumber', { params: { wnumber } })
     }
 }
 

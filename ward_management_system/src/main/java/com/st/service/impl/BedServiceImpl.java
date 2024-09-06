@@ -47,4 +47,9 @@ public class BedServiceImpl implements BedService {
     public Bed selectByBid(Long bid) {
         return bedMapper.selectByBid(bid);
     }
+
+    @Override
+    public List<Bed> selectFreeBedsByWnumber(String wnumber) {
+        return bedMapper.selectFreeBedsByWnumber(wnumber);
+    }
 }

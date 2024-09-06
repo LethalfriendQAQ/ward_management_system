@@ -50,4 +50,10 @@
     <select id="selectByWnumber" resultType="bed">
         SELECT * FROM `bed` WHERE `wnumber`=#{wnumber}
     </select>
+    <select id="selectFreeBedsByWnumber" resultType="bed">
+        SELECT bnumber
+        FROM `bed`
+        WHERE wnumber = #{wnumber}
+          AND (pno IS NULL OR pno = '')
+    </select>
 </mapper>

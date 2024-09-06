@@ -56,4 +56,11 @@ public class BedController {
         List<Bed> bedList = bedService.selectAll();
         return RespBean.ok("",bedList);
     }
+
+    // 根据病房号查询空闲病床
+    @GetMapping("/selectFreeBedsByWnumber/{wnumber}")
+    public RespBean selectFreeBedsByWnumber(@RequestParam String wnumber) {
+        List<Bed> freeBeds = bedService.selectFreeBedsByWnumber(wnumber);
+        return RespBean.ok("",freeBeds);
+    }
 }

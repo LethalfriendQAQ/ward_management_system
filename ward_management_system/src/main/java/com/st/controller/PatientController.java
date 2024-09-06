@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.st.bean.Patient;
 import com.st.bean.RespBean;
+import com.st.exception.SteduException;
 import com.st.service.NurseService;
 import com.st.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PatientController {
         return RespBean.ok("查询成功", pageInfo);
     }
     @PostMapping
-    public RespBean insert(@RequestBody Patient patient) {
+    public RespBean insert(@RequestBody Patient patient) throws SteduException {
         if (patientService.insert(patient)) {
             return RespBean.ok("添加成功");
         } else {

@@ -92,22 +92,19 @@
             </el-form-item>
             <el-form-item label="护士编号" label-width="20%">
                 <el-select v-model="patientAdd.nno" placeholder="请选择护士" style="width: 300px;">
-                    <el-option v-for="(nurse, index) in nurseList" :key="index" :label="nurse.nno"
-                        :value="nurse.nno" />
+                    <el-option v-for="(nurse, index) in nurseList" :key="index" :label="nurse.nno" :value="nurse.nno" />
                 </el-select>
             </el-form-item>
             <el-form-item label="病房号" label-width="20%">
-                <el-select v-model="patientAdd.wnumber" placeholder="请选择科室" style="width: 300px;">
-                    <el-option v-for="(department, index) in departmentList" :key="index" :label="department.dname"
-                        :value="department.did" />
+                <el-select v-model="patientAdd.wnumber" placeholder="请选择病房号" style="width: 300px;">
+                    <el-option v-for="(ward, index) in wardList" :key="index" :label="ward.wnumber"
+                        :value="ward.wnumber" />
                 </el-select>
             </el-form-item>
             <el-form-item label="病床号" label-width="20%">
-                <el-select v-model="patientAdd.bnumber" placeholder="请选择科室" style="width: 300px;">
-                    <el-option v-for="(nurse, index) in nurseList" :key="index" :label="department.dname"
-                        :value="department.did" />
-                </el-select>
+                <el-input v-model="patientAdd.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
+
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -160,6 +157,21 @@
                         :value="department.did" />
                 </el-select>
             </el-form-item>
+            <el-form-item label="护士编号" label-width="20%">
+                <el-select v-model="patientUpdate.nno" placeholder="请选择护士" style="width: 300px;">
+                    <el-option v-for="(nurse, index) in nurseList" :key="index" :label="nurse.nno" :value="nurse.nno" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="病房号" label-width="20%">
+                <el-select v-model="patientUpdate.wnumber" placeholder="请选择病房号" style="width: 300px;">
+                    <el-option v-for="(ward, index) in wardList" :key="index" :label="ward.wnumber"
+                        :value="ward.wnumber" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="病床号" label-width="20%">
+                <el-input v-model="patientUpdate.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
+            </el-form-item>
+
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -174,8 +186,10 @@
 import departmentApi from '@/api/departmentApi';
 import patientApi from '@/api/patientApi';
 import nurseApi from '@/api/nurseApi';
-import { ref,watch } from 'vue';
+import { ref, watch } from 'vue';
 import { ElMessage } from 'element-plus';
+import wardApi from '@/api/wardApi';
+import bedApi from '@/api/bedApi';
 
 let pageNow;
 const pname = ref('');
@@ -190,6 +204,10 @@ const departmentList = ref([]);
 
 //该科室下的护士
 const nurseList = ref([])
+//该科室下的病房
+const wardList = ref([]);
+//该病房下的病床
+const bedList = ref([]);
 
 //添加对话框是否显示
 const addDialogShow = ref(false);
@@ -211,34 +229,6 @@ const patientAdd = ref({
     bnumber: ''
 })
 
-//监听科室选择变化，获取对应科室的护士列表
-watch(() => patientAdd.value.did, (newDid) => {
-    if(newDid) {
-        //如果重新选择了科室，重置护士编号
-        patientAdd.value.nno = '';
-        //调用API获取该科室的护士列表
-        nurseApi.selectByDid(newDid)
-            .then(resp => {
-                nurseList.value = resp.data;
-            });
-    } else {
-        nurseList.value = []; //如果没有选择科室，则清空护士列表
-    }
-});
-
-
-
-
-//分页显示
-function selectByPage(pageNum) {
-    patientApi.selectByPage(pageNum, pname.value)
-        .then(resp => {
-            pageInfo.value = resp.data;
-            pageNow = resp.data.pageNum;
-        });
-}
-
-
 //被修改的患者的信息
 const patientUpdate = ref({
     pid: '',
@@ -252,6 +242,66 @@ const patientUpdate = ref({
     ptelephone: '',
     did: ''
 });
+
+//监听科室选择变化，获取对应科室的护士列表
+watch(() => patientAdd.value.did, (newDid) => {
+    if (newDid) {
+        //如果重新选择了科室，重置护士编号
+        patientAdd.value.nno = '';
+        //调用API获取该科室的护士列表
+        nurseApi.selectByDid(newDid)
+            .then(resp => {
+                nurseList.value = resp.data;
+            });
+    } else {
+        nurseList.value = []; //如果没有选择科室，则清空护士列表
+    }
+});
+
+//监听科室选择变化，获取对应科室的病房列表
+watch(() => patientAdd.value.did, (newDid) => {
+    if (newDid) {
+        //如果重新选择了科室，重置护士编号
+        patientAdd.value.wnumber = '';
+        //调用API获取该科室的病房列表
+        wardApi.selectByDid(newDid)
+            .then(resp => {
+                wardList.value = resp.data;
+            });
+    } else {
+        wardList.value = []; //如果没有选择科室，则清空护士列表
+    }
+});
+
+// 监听病房号变化，获取对应病房的空闲病床列表
+// watch(() => patientAdd.value.wnumber, (newWnumber) => {
+//     if (newWnumber) {
+//         // 如果重新选择了病房，重置病床编号
+//         patientAdd.value.bnumber = '';
+//         // 调用API获取该病房下未被分配的病床
+//         bedApi.selectFreeBedsByWnumber(newWnumber)
+//             .then(resp => {
+//                 console.log(resp);
+                
+//                 bedList.value = resp.data; // 更新病床列表
+//             });
+//     } else {
+//         bedList.value = []; // 如果没有选择病房，清空病床列表
+//     }
+// });
+
+
+//分页显示
+function selectByPage(pageNum) {
+    patientApi.selectByPage(pageNum, pname.value)
+        .then(resp => {
+            pageInfo.value = resp.data;
+            pageNow = resp.data.pageNum;
+        });
+}
+
+
+
 //查询所有科室并显示添加对话框
 function showAddDialog() {
     departmentApi.selectAll()

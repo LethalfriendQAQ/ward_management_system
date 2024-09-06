@@ -1,6 +1,7 @@
 package com.st.service;
 
 import com.st.bean.Bed;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface BedService {
     Bed selectByBnumber(String bnumber);
     List<Bed> selectByWnumber(String wnumber);
     Bed selectByBid(Long bid);
+    List<Bed> selectFreeBedsByWnumber(@Param("wnumber") String wnumber);
 }

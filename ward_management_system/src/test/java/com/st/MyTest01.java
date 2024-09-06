@@ -1,6 +1,7 @@
 package com.st;
 
 import com.st.bean.Patient;
+import com.st.exception.SteduException;
 import com.st.mapper.PatientMapper;
 import com.st.service.PatientService;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class MyTest01 {
 
 
     @Test
-    public void test11() throws ParseException {
+    public void test11() throws ParseException, SteduException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Patient p = new Patient(null, "23232", "11", 22, "女", sdf.parse("2021-06-06"), sdf.parse("2021-07-06"), 1, "213", 2, "1002", "101", "101-1");
         System.out.println(patientService.insert(p));

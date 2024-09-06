@@ -1,6 +1,7 @@
 package com.st.service.impl;
 
 import com.st.bean.Patient;
+import com.st.exception.SteduException;
 import com.st.mapper.BedMapper;
 import com.st.mapper.PatientMapper;
 import com.st.service.PatientService;
@@ -16,13 +17,18 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private BedMapper bedMapper;
     @Override
-    public boolean insert(Patient p) {
+    public boolean insert(Patient p) throws SteduException {
         //p.setPstatus(1);
         //return patientMapper.insert(p) == 1;
-        if (patientMapper.insert(p) == 1) {
+
+        if (bedMapper.selectByBnumber(p.getBnumber()).getPno() == null){
             bedMapper.updatePnoAndNnoByBnumber(p.getPno(), p.getNno(), p.getBnumber());
+        } else {
+            throw new SteduException("该病床下已有病人");
         }
-        return true;
+
+
+        return patientMapper.insert(p) == 1;
     }
 
     @Override
