@@ -120,7 +120,7 @@
             <el-form-item label="病床号" label-width="20%">
                 <el-input v-model="patientAdd.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
-            
+
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -132,7 +132,7 @@
     <!-- 添加对话框结束 -->
 
     <!-- 修改对话框开始 -->
-    <el-dialog v-model="updateDialogShow" title="修改患者" width="500">
+    <el-dialog v-model="updateDialogShow" title="修改患者" width="500"  @close="closeDialog">
         <el-form>
             <el-form-item label="编号" label-width="20%">
                 <el-input v-model="patientUpdate.pno" autocomplete="off" />
@@ -289,6 +289,35 @@ watch(() => patientAdd.value.did, (newDid) => {
     }
 });
 
+let unwatchDepartmentChange;  // 保存监听器
+
+function watchDepartmentChange() {
+    if (unwatchDepartmentChange) {
+        unwatchDepartmentChange();  // 取消之前的监听
+    }
+
+    unwatchDepartmentChange = watch(() => patientUpdate.value.did, (newDid) => {
+        if (newDid && updateDialogShow.value) {
+            patientUpdate.value.nno = '';
+            patientUpdate.value.wnumber = '';
+
+            nurseApi.selectByDid(newDid)
+                .then(resp => {
+                    nurseList.value = resp.data;
+                });
+
+            wardApi.selectByDid(newDid)
+                .then(resp => {
+                    wardList.value = resp.data;
+                });
+        } else {
+            nurseList.value = [];
+            wardList.value = [];
+        }
+    });
+}
+
+
 departmentApi.selectAll()
     .then(resp => {
         departmentList.value = resp.data;
@@ -415,12 +444,19 @@ function selectByPid(pid) {
                                     // 数据全部加载完成后再绑定并打开对话框
                                     patientUpdate.value = patientData;
                                     updateDialogShow.value = true;
+                                    watchDepartmentChange();
+
                                 });
                         });
                 });
         })
 }
 
+function closeDialog() {
+    updateDialogShow.value = false;
+    nurseList.value = [];  // 清空护士列表
+    wardList.value = [];   // 清空病房列表
+}
 
 
 //默认查询首页
