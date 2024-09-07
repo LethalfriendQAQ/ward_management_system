@@ -56,7 +56,7 @@ public class DutyController {
         return RespBean.ok("", map);
     }
 
-    @GetMapping("/dutyIdAndNid")
+    @PostMapping("/dutyIdAndNid")
     public RespBean insertDutyIdAndNid(@RequestBody Map<String, Object> map) {
         System.out.println(map);
 

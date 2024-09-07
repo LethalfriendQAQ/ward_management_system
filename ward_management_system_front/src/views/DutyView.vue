@@ -93,11 +93,12 @@ function showSetDutyDialog(dutyId) {
 function insertDutyIdAndNid() {
     dutyApi.insertDutyIdAndNid(selectDutyId.value, selectNids.value)
         .then(resp => {
+            console.log(resp);
             //弹出消息
             ElMessage.success(resp.msg);
             //隐藏分配员工的对话框
             setDutyDialogShow.value = false;
-            console.log(resp);
+            selectAll();
         });
 }
 
