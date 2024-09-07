@@ -6,6 +6,9 @@
                 <el-form-item>
                     <el-button type="primary" @click="showAddDialog">添加</el-button>
                 </el-form-item>
+                <el-form-item>
+                    <el-button type="success" plain @click="exportToExcel">导出 Excel</el-button>
+                </el-form-item>
                 <el-form-item style="float: right;">
                     <el-radio-group v-model="radio1" @change="">
                         <el-radio-button label="所有" value="" />
@@ -227,6 +230,9 @@ import { ref, watch } from 'vue';
 import { ElMessage } from 'element-plus';
 import wardApi from '@/api/wardApi';
 import bedApi from '@/api/bedApi';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
 
 let pageNow;
 const pname = ref('');
@@ -289,6 +295,37 @@ const patientUpdate = ref({
     ptelephone: '',
     did: ''
 });
+
+// 导出 Excel 方法
+function exportToExcel() {
+    // 获取表格数据
+    const data = pageInfo.value.list.map(item => ({
+        ID: item.pid,
+        编号: item.pno,
+        姓名: item.pname,
+        年龄: item.page,
+        性别: item.pgender,
+        入院时间: item.padmissiondate,
+        出院时间: item.pleavedate,
+        住院状态: item.pstatus === 1 ? '住院中' : '已出院',
+        电话: item.ptelephone,
+        科室: getDepartmentName(item.did),
+        护士编号: item.nno,
+        病房号: item.wnumber,
+        病床号: item.bnumber,
+    }));
+
+    // 创建工作簿和工作表
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, '患者数据');
+
+    // 生成 Excel 文件并下载
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '患者数据.xlsx');
+}
+
+
 //添加成功上传之前的回调
 function beforeAvatarUpload(rawFile) {
     if (rawFile.type !== 'image/jpeg') {
