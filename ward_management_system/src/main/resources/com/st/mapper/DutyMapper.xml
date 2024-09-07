@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.st.mapper.DutyMapper">
+    <insert id="insertDutyIdAndNid">
+        INSERT INTO `duty_nurse` (`duty_id`, `nid`)
+        VALUES
+            <foreach collection="nids" item="nid" separator=",">
+                (#{dutyId},#{nid})
+            </foreach>
+    </insert>
+    <delete id="deleteDutyIdAndNidByDutyId">
+        DELETE FROM `duty_nurse` WHERE `duty_id`=#{dutyId}
+    </delete>
+    <select id="selectAll" resultType="com.st.bean.Duty">
+        SELECT * FROM `duty_nurse`
+    </select>
+    <select id="selectNidByDutyId" resultType="java.lang.Long">
+        SELECT `nid` FROM `duty_nurse` WHERE `duty_id`=#{dutyId}
+    </select>
+</mapper>

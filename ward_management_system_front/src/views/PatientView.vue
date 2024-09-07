@@ -383,13 +383,11 @@ function watchDepartmentChange() {
 departmentApi.selectAll()
     .then(resp => {
         departmentList.value = resp.data;
-        console.log(departmentList.value); // 打印科室列表，确保数据正确
     });
 
 wardApi.selectAll()
     .then(resp => {
         wardList.value = resp.data;
-        console.log(wardList.value); // 打印病房列表
     });
 
 
