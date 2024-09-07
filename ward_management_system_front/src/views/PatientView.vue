@@ -145,7 +145,7 @@
     <!-- 添加对话框结束 -->
 
     <!-- 修改对话框开始 -->
-    <el-dialog v-model="updateDialogShow" title="修改患者" width="500"  @close="closeDialog">
+    <el-dialog v-model="updateDialogShow" title="修改患者" width="500" @close="closeDialog">
         <el-form>
             <el-form-item label="编号" label-width="20%">
                 <el-input v-model="patientUpdate.pno" autocomplete="off" />
@@ -200,7 +200,15 @@
             <el-form-item label="病床号" label-width="20%">
                 <el-input v-model="patientUpdate.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
-            
+            <el-form-item label="头像" label-width="20%">
+                <el-upload class="avatar-uploader" action="http://localhost:8080/user/upload" name="pic"
+                    :show-file-list="false" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccessUpdate">
+                    <img v-if="imageUrlUpdate" :src="imageUrlUpdate" class="avatar" />
+                    <el-icon v-else class="avatar-uploader-icon">
+                        <Plus />
+                    </el-icon>
+                </el-upload>
+            </el-form-item>
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -271,6 +279,7 @@ const patientAdd = ref({
 const patientUpdate = ref({
     pid: '',
     pno: '',
+    pavatar: '',
     pname: '',
     page: '',
     pgender: '',
@@ -295,10 +304,19 @@ function beforeAvatarUpload(rawFile) {
 
 //添加成功上传之后的回调
 function handleAvatarSuccessAdd(resp, uploadFile) {
-    if(resp.code == 10000) {
+    if (resp.code == 10000) {
         ElMessage.success(resp.msg);
         imageUrlAdd.value = "http://localhost:8080/upload/" + resp.data;
         patientAdd.value.pavatar = resp.data;
+    }
+}
+
+//修改成功上传之后的回调
+function handleAvatarSuccessUpdate(resp, uploadFile) {
+    if (resp.code == 10000) {
+        ElMessage.success(resp.msg);
+        imageUrlUpdate.value = "http://localhost:8080/upload/" + resp.data;
+        patientUpdate.value.pavatar = resp.data;
     }
 }
 
@@ -442,6 +460,8 @@ function update() {
     patientApi.update(patientUpdate.value)
         .then(resp => {
             if (resp.code == 10000) {
+                console.log(resp);
+                
                 //弹出消息
                 ElMessage.success(resp.msg);
                 //隐藏对话框
@@ -490,6 +510,8 @@ function selectByPid(pid) {
                                     wardList.value = wardResp.data;
                                     // 数据全部加载完成后再绑定并打开对话框
                                     patientUpdate.value = patientData;
+                                    //设置头像
+                                    imageUrlUpdate.value = `http://localhost:8080/upload/${patientUpdate.value.pavatar}`;
                                     updateDialogShow.value = true;
                                     watchDepartmentChange();
 
