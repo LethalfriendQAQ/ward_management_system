@@ -20,9 +20,21 @@ public class MyTest07 {
         dutyService.insertDutyIdAndNid(2, nids);
     }
     @Test
+    public void test12() {
+        dutyService.selectAll()
+                .stream()
+                .forEach(System.out::println);
+    }
+    @Test
     public void test01() {
         Long[] nids = {1L, 2L, 3L};
         dutyMapper.insertDutyIdAndNid(1, nids);
+    }
+    @Test
+    public void test02() {
+        dutyMapper.selectAll()
+                .stream()
+                .forEach(System.out::println);
     }
 
 }

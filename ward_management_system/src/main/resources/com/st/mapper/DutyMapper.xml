@@ -12,7 +12,7 @@
         DELETE FROM `duty_nurse` WHERE `duty_id`=#{dutyId}
     </delete>
     <select id="selectAll" resultType="com.st.bean.Duty">
-        SELECT * FROM `duty_nurse`
+        SELECT * FROM `duty`
     </select>
     <select id="selectNidByDutyId" resultType="java.lang.Long">
         SELECT `nid` FROM `duty_nurse` WHERE `duty_id`=#{dutyId}

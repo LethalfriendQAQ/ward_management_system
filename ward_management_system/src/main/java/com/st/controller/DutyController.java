@@ -24,6 +24,7 @@ public class DutyController {
     @GetMapping("/selectAll")
     public RespBean selectAll() {
         List<Duty> dutyList = dutyService.selectAll();
+
         return RespBean.ok("", dutyList);
     }
 
