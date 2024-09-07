@@ -18,4 +18,5 @@ public class Nurse {
     private Integer did;
     //负责患者
     //private String pno;
+    private Department department;
 }

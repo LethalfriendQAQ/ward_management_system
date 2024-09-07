@@ -29,18 +29,45 @@ public class DutyController {
     }
 
     @GetMapping("/allNurse")
-    public RespBean allNurse() {
+    public RespBean allNurse(@PathVariable("dutyId") Integer dutyId) {
         List<Map<String, Object>> nurseMapList = nurseService.selectByNname(null)
                 .stream()
                 .map(n ->{
                     Map<String, Object> nurseMap = new HashMap<>();
+
+                    //检查department是否为null
+                    String label = (n.getDepartment() != null) ?
+                            n.getDepartment().getDname() + "-" + n.getNname():
+                            n.getNname(); //如果department为null，则只显示名字
+
                     nurseMap.put("key", n.getNid());
                     nurseMap.put("label", n.getNno() + "-" + n.getNname());
 
                     return nurseMap;
                 }).collect(Collectors.toList());
 
-        return RespBean.ok("", nurseMapList);
+        //获取已经分配护士的nid
+        List<Long> nids = dutyService.selectNidByDutyId(dutyId);
+
+        Map<Object, Object> map = new HashMap<>();
+        map.put("allNurse", nurseMapList);
+        map.put("selectNids", nids);
+
+        return RespBean.ok("", map);
     }
 
+    @GetMapping("/dutyIdAndNid")
+    public RespBean insertDutyIdAndNid(@RequestBody Map<String, Object> map) {
+        System.out.println(map);
+
+        Integer dutyId = (Integer) map.get("dutyId");
+        List<Integer> nidsList = (List<Integer>) map.get("nids");
+        Long[] nids = new Long[nidsList.size()];
+        for (int i = 0;i < nidsList.size(); i++) {
+            int nid = nidsList.get(i);
+            nids[i] = new Long(nid + "");
+        }
+        dutyService.insertDutyIdAndNid(dutyId, nids);
+        return RespBean.ok("分配护士成功");
+    }
 }

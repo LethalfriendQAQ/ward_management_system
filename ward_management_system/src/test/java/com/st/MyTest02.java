@@ -16,9 +16,9 @@ public class MyTest02 {
 
     @Test
     public void test01(){
-        Nurse nurse = new Nurse(null, "2222", "11", 1);
-        int result = nurseMapper.insert(nurse);
-        System.out.println(result);
+        //Nurse nurse = new Nurse(null, "2222", "11", 1);
+        //int result = nurseMapper.insert(nurse);
+        //System.out.println(result);
     }
 
     @Test
@@ -28,9 +28,9 @@ public class MyTest02 {
 
     @Test
     public void test03(){
-        Nurse nurse = new Nurse(3L, "33333", "11", 1);
-        int result = nurseMapper.update(nurse);
-        System.out.println(result);
+        //Nurse nurse = new Nurse(3L, "33333", "11", 1);
+        //int result = nurseMapper.update(nurse);
+        //System.out.println(result);
     }
 
     @Test

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,4 +27,7 @@ public class Duty implements Serializable {
     private Integer dutyTaskProgress;
     //任务详情
     private String dutyDetails;
+
+    //值班人员
+    private List<Nurse> nurses;
 }

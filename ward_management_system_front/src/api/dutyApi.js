@@ -8,6 +8,13 @@ const dutyApi = {
     //获取所有护士
     allNurse() {
         return service.get("/user/duty/allNurse")
+    },
+    //分配员工
+    insertDutyIdAndNid(dutyId, nids) {
+        return service.post("/user/duty/dutyIdAndNid", {
+            dutyId,
+            nids
+        });
     }
 };
 
