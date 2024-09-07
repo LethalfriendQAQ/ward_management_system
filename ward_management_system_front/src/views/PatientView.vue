@@ -120,7 +120,7 @@
             <el-form-item label="病床号" label-width="20%">
                 <el-input v-model="patientAdd.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
-
+            
         </el-form>
         <template #footer>
             <div class="dialog-footer">

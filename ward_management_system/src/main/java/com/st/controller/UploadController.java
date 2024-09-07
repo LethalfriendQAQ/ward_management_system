@@ -17,8 +17,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/user/upload")
 public class UploadController {
-    @Value("${stdeu.picdir}")
-    private String picdir;
+    @Value("${stdeu.picDir}")
+    private String picDir;
 
     @PostMapping
     public RespBean upload(MultipartFile pic) throws IOException {
@@ -27,8 +27,7 @@ public class UploadController {
         //保证图片名字唯一
         filename = UUID.randomUUID().toString().replace("-", "") + "_" + filename;
         //将图片保存在服务器
-        pic.transferTo(new File(picdir + filename));
-
+        pic.transferTo(new File(picDir + filename));
         return RespBean.ok("上传成功", filename);
     }
 }

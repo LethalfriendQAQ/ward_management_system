@@ -2,7 +2,9 @@
   <div class="common-layout">
     <el-container>
       <el-header  style="padding: 0; margin: 0;">
-        <el-header style="background-color: #1e1c23; color: white; padding: 0; margin: 0;width: 100%;">Header</el-header>
+        <el-header style="background-color: #1e1c23; color: white; padding: 0; margin: 0;width: 100%;">
+          <img src="/images/logo.png" alt="Logo" style="height: 50px; margin-left: 20px; padding: 0; margin: 0; width: 100%; width: 200px;">
+        </el-header>
       </el-header>
       <el-container>
         <el-aside>
