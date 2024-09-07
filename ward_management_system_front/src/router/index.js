@@ -6,6 +6,7 @@ import IndexView from '@/views/IndexView.vue'
 import NurseView from '@/views/NurseView.vue'
 import WardView from '@/views/WardView.vue'
 import BedView from '@/views/BedView.vue'
+import DutyView from '@/views/DutyView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,9 @@ const router = createRouter({
         }, {
           path: '/bed',
           component: BedView
+        }, {
+          path: '/duty',
+          component: DutyView
         }
       ]
     }, {

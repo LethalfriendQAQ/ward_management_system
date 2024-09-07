@@ -23,6 +23,7 @@
               </template>
               <el-menu-item index="/dept" style="background-color: #3a3646;">科室管理</el-menu-item>
               <el-menu-item index="/nurse" style="background-color: #3a3646;">护士管理</el-menu-item>
+              <el-menu-item index="/duty" style="background-color: #3a3646;">值班管理</el-menu-item>
             </el-sub-menu>
             <el-sub-menu index="4">
               <template #title>
