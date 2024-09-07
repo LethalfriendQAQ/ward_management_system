@@ -28,7 +28,7 @@ public class DutyController {
         return RespBean.ok("", dutyList);
     }
 
-    @GetMapping("/allNurse")
+    @GetMapping("/allNurse/{dutyId}")
     public RespBean allNurse(@PathVariable("dutyId") Integer dutyId) {
         List<Map<String, Object>> nurseMapList = nurseService.selectByNname(null)
                 .stream()

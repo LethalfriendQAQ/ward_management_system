@@ -57,7 +57,7 @@
 
 
     <!-- 修改对话框开始 -->
-    <el-dialog v-model="updateDialogShow" title="添加护士" width="500">
+    <el-dialog v-model="updateDialogShow" title="修改护士" width="500">
         <el-form>
             <el-form-item label="编号" label-width="20%">
                 <el-input v-model="nurseUpdate.nno" disabled="true" autocomplete="off" />
@@ -74,7 +74,7 @@
         </el-form>
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="addDialogShow = false">取消</el-button>
+                <el-button @click="updateDialogShow = false">取消</el-button>
                 <el-button type="primary" @click="update">确认</el-button>
             </div>
         </template>
@@ -98,7 +98,7 @@ const pageInfo = ref({
 });
 
 const nurseList = ref([]);
-
+const wardList = ref([]);
 //所有科室
 const departmentList = ref([]);
 
