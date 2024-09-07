@@ -23,7 +23,12 @@
             </el-form>
             <el-table :data="pageInfo.list" border style="width: 100%">
                 <el-table-column prop="pid" label="ID" width="50px" />
-                <el-table-column prop="pno" label="编号" />
+                <el-table-column prop="pno" label="编号" width="70px" />
+                <el-table-column prop="eavatar" label="头像" width="70px">
+                    <template #default="scope">
+                        <el-avatar :size="size" :src="'http://localhost:8080/upload/' + scope.row.pavatar" />
+                    </template>
+                </el-table-column>
                 <el-table-column prop="pname" label="姓名" />
                 <el-table-column prop="page" label="年龄" width="70px" />
                 <el-table-column prop="pgender" label="性别" width="70px" />
@@ -120,7 +125,15 @@
             <el-form-item label="病床号" label-width="20%">
                 <el-input v-model="patientAdd.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
-
+            <el-form-item label="头像" label-width="20%">
+                <el-upload class="avatar-uploader" action="http://localhost:8080/user/upload" name="pic"
+                    :show-file-list="false" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccessAdd">
+                    <img v-if="imageUrlAdd" :src="imageUrlAdd" class="avatar" />
+                    <el-icon v-else class="avatar-uploader-icon">
+                        <Plus />
+                    </el-icon>
+                </el-upload>
+            </el-form-item>
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -187,7 +200,7 @@
             <el-form-item label="病床号" label-width="20%">
                 <el-input v-model="patientUpdate.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
-
+            
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -229,9 +242,18 @@ const bedList = ref([]);
 const addDialogShow = ref(false);
 //修改对话框是否显示
 const updateDialogShow = ref(false);
+//上传图片的地址
+const imageUrl = ref("");
+
+//添加上传图片的地址
+const imageUrlAdd = ref("");
+//修改上传图片的地址
+const imageUrlUpdate = ref("");
+
 //被添加患者的信息
 const patientAdd = ref({
     pno: '',
+    pavatar: '',
     pname: '',
     page: '',
     pgender: '',
@@ -258,6 +280,28 @@ const patientUpdate = ref({
     ptelephone: '',
     did: ''
 });
+//添加成功上传之前的回调
+function beforeAvatarUpload(rawFile) {
+    if (rawFile.type !== 'image/jpeg') {
+        ElMessage.error('图片仅支持jpg格式');
+        return false
+    } else if (rawFile.size / 1024 / 1024 > 2) {
+        ElMessage.error('图片不能超过2M');
+        return false
+    }
+    return true
+}
+
+
+//添加成功上传之后的回调
+function handleAvatarSuccessAdd(resp, uploadFile) {
+    if(resp.code == 10000) {
+        ElMessage.success(resp.msg);
+        imageUrlAdd.value = "http://localhost:8080/upload/" + resp.data;
+        patientAdd.value.pavatar = resp.data;
+    }
+}
+
 
 //添加：监听科室选择变化，获取对应科室的护士列表
 watch(() => patientAdd.value.did, (newDid) => {
@@ -368,6 +412,7 @@ function insert() {
                 //清空对话框中的数据
                 patientAdd.value = {
                     pno: '',
+                    pavatar: '',
                     pname: '',
                     page: '',
                     pgender: '',
@@ -380,6 +425,8 @@ function insert() {
                     wnumber: '',
                     bnumber: ''
                 }
+                //imgUrl清空
+                imageUrl.value = '';
 
                 //刷新表格数据
                 selectByPage(pageNow);
@@ -462,4 +509,21 @@ function closeDialog() {
 //默认查询首页
 selectByPage(1);
 </script>
-<style scoped></style>
+<style scoped>
+.avatar-uploader,
+.avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+    border: 1px dotted #dcdfe6;
+    border-radius: 5px;
+}
+
+.el-icon.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
+}
+</style>

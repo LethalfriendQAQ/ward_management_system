@@ -15,6 +15,8 @@ public class Patient {
     private Long pid;
     //患者编号
     private String pno;
+    //头像
+    private String pavatar;
     //姓名
     private String pname;
     //年龄

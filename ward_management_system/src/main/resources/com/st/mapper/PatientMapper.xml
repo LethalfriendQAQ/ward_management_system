@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.st.mapper.PatientMapper">
     <insert id="insert" parameterType="patient">
-        INSERT INTO `patient`(`pno`, `pname`, `page`, `pgender`, `padmissiondate`, `pleavedate`, `pstatus`, `ptelephone`,`did`,`nno`, `wnumber`, `bnumber`)
-        VALUES (#{pno}, #{pname}, #{page}, #{pgender}, #{padmissiondate}, #{pleavedate}, #{pstatus}, #{ptelephone}, #{did}, #{nno}, #{wnumber}, #{bnumber})
+        INSERT INTO `patient`(`pno`, `pavatar`, `pname`, `page`, `pgender`, `padmissiondate`, `pleavedate`, `pstatus`, `ptelephone`,`did`,`nno`, `wnumber`, `bnumber`)
+        VALUES (#{pno}, #{pavatar}, #{pname}, #{page}, #{pgender}, #{padmissiondate}, #{pleavedate}, #{pstatus}, #{ptelephone}, #{did}, #{nno}, #{wnumber}, #{bnumber})
     </insert>
     <update id="update" parameterType="patient">
         UPDATE `patient`
         SET
             `pno`=#{pno},
+            `pavatar`=#{pavatar},
             `pname`=#{pname},
             `page`=#{page},
             `pgender`=#{pgender},

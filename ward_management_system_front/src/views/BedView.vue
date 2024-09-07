@@ -63,7 +63,7 @@
                 <el-input v-model="bedUpdate.bnumber" autocomplete="off" />
             </el-form-item>
             <el-form-item label="患者编号" label-width="20%">
-                <el-input v-model="bedUpdate.pno" autocomplete="off" />
+                <el-input v-model="bedUpdate.pno" disabled="true" autocomplete="off" />
             </el-form-item>
             <el-form-item label="负责护士" label-width="20%">
                 <el-input v-model="bedUpdate.nno" autocomplete="off" />
