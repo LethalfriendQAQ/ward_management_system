@@ -28,8 +28,20 @@
                 (#{dutyId},#{nid})
             </foreach>
     </insert>
+    <insert id="insert" parameterType="duty">
+        INSERT INTO `duty` (`duty_date`, `duty_work_time`, `duty_closing_time`, `duty_task_progress`, `duty_details`)
+        VALUES (#{dutyDate}, #{dutyWorkTime}, #{dutyClosingTime}, #{dutyTaskProgress}, #{dutyDetails})
+    </insert>
+    <update id="update" parameterType="duty">
+        UPDATE `duty`
+        SET `duty_date`=#{dutyDate}, `duty_work_time`=#{dutyWorkTime}, `duty_closing_time`=#{dutyClosingTime}, `duty_task_progress`=#{dutyTaskProgress}, `duty_details`=#{dutyDetails}
+        WHERE `duty_id`=#{dutyId}
+    </update>
     <delete id="deleteDutyIdAndNidByDutyId">
         DELETE FROM `duty_nurse` WHERE `duty_id`=#{dutyId}
+    </delete>
+    <delete id="delete">
+        DELETE FROM `duty` WHERE `duty_id`=#{dutyId}
     </delete>
     <select id="selectAll" resultMap="dutyMap">
         SELECT

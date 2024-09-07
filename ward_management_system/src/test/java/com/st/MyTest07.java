@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 @SpringBootTest
 public class MyTest07 {
     @Autowired
@@ -37,4 +40,10 @@ public class MyTest07 {
                 .forEach(System.out::println);
     }
 
+    @Test
+    public void test03() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        //Duty duty = new Duty(null, "周二", sdf.parse("18:00:00"), sdf.parse("22:00:00"), 45, "qweqrqwr");
+        //System.out.println(dutyMapper.insert(duty));
+    }
 }

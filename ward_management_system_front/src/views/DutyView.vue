@@ -68,6 +68,18 @@ const selectDutyId = ref([]);
 //是否展示分配护士对话框
 const setDutyDialogShow = ref(false);
 
+const addDialogShow = ref(false);
+
+const dutyAdd = ref({
+    dutyDate: '',
+    dutyWorkTime: '',
+    dutyClosingTime: '',
+    dutyTaskProgress: '',
+    dutyDetails: '',
+})
+
+//定义方法完成值班安排添加
+
 
 //查询所有值班安排的信息
 function selectAll() {

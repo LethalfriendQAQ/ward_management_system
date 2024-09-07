@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface DutyMapper {
+    int insert(Duty duty);
+    int delete(Long dutyId);
+    int update(Duty duty);
     //查询所有的值班
     List<Duty> selectAll();
     //获取某个值班和所有的护士的nid
