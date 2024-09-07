@@ -1,5 +1,6 @@
 package com.st;
 
+import com.st.bean.Duty;
 import com.st.mapper.DutyMapper;
 import com.st.service.DutyService;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 @SpringBootTest
 public class MyTest07 {
@@ -43,7 +45,8 @@ public class MyTest07 {
     @Test
     public void test03() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        //Duty duty = new Duty(null, "周二", sdf.parse("18:00:00"), sdf.parse("22:00:00"), 45, "qweqrqwr");
-        //System.out.println(dutyMapper.insert(duty));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        Duty duty = new Duty(null, "周四", sdf.parse("18:00:00"), sdf.parse("22:00:00"), 45, "qweqrqwr",null);
+        System.out.println(dutyMapper.insert(duty));
     }
 }

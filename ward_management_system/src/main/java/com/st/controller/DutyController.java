@@ -2,6 +2,7 @@ package com.st.controller;
 
 import com.st.bean.Duty;
 import com.st.bean.RespBean;
+import com.st.exception.SteduException;
 import com.st.service.DutyService;
 import com.st.service.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,36 @@ public class DutyController {
     private DutyService dutyService;
     @Autowired
     private NurseService nurseService;
+
+    @PostMapping
+    public RespBean insert(@RequestBody Duty duty) {
+        //添加
+        if (dutyService.insert(duty)) {
+            return RespBean.ok("添加成功");
+        } else {
+            return RespBean.error("添加失败，请重新添加");
+        }
+    }
+
+    @DeleteMapping("/{dutyId}")
+    public RespBean delete(@PathVariable("dutyId") Long dutyId) {
+        //删除
+        if (dutyService.delete(dutyId)) {
+            return RespBean.ok("删除成功");
+        } else {
+            return RespBean.error("删除失败，请重新添加");
+        }
+    }
+
+    @PutMapping
+    public RespBean update(@RequestBody Duty duty) throws SteduException {
+        //修改
+        if (dutyService.update(duty)) {
+            return RespBean.ok("修改成功");
+        } else {
+            return RespBean.error("修改失败，请重新添加");
+        }
+    }
 
     @GetMapping("/selectAll")
     public RespBean selectAll() {

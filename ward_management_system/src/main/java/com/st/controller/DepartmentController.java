@@ -28,7 +28,7 @@ public class DepartmentController {
 
     @DeleteMapping("/{did}")
     public RespBean delete(@PathVariable("did") Integer did) throws SteduException {
-        //添加
+        //删除
         if (departmentService.delete(did)) {
             return RespBean.ok("删除成功");
         } else {
@@ -37,7 +37,7 @@ public class DepartmentController {
     }
     @PutMapping
     public RespBean update(@RequestBody Department department) throws SteduException {
-        //添加
+        //修改
         if (departmentService.update(department)) {
             return RespBean.ok("修改成功");
         } else {

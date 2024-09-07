@@ -14,6 +14,21 @@ public class DutyServiceImpl implements DutyService {
     private DutyMapper dutyMapper;
 
     @Override
+    public boolean insert(Duty duty) {
+        return dutyMapper.insert(duty) == 1;
+    }
+
+    @Override
+    public boolean delete(Long dutyId) {
+        return dutyMapper.delete(dutyId) == 1;
+    }
+
+    @Override
+    public boolean update(Duty duty) {
+        return dutyMapper.update(duty) == 1;
+    }
+
+    @Override
     public List<Duty> selectAll() {
         return dutyMapper.selectAll();
     }
