@@ -22,13 +22,23 @@ public class PatientController {
     @Autowired
     private NurseService nurseService;
 
-    @GetMapping
-    public RespBean selectByPage(Integer pageNum, String pname) {
+    @GetMapping("/selectByPage")
+    public RespBean selectByPage(Integer pageNum, String pname, Integer did, Integer pstatus) {
         if (pageNum == null) {
             pageNum = 1;
         }
         PageHelper.startPage(pageNum, 10);
-        List<Patient> patientList = patientService.selectByPname(pname);
+        //if (pstatus == null) {
+        //    List<Patient> patientList = patientService.selectByPname(pname);
+        //    PageInfo<Patient> pageInfo = new PageInfo<>(patientList);
+        //    return RespBean.ok("查询成功", pageInfo);
+        //} else {
+        //    List<Patient> patientList = patientService.selectByConditions(pname, did, pstatus);
+        //    PageInfo<Patient> pageInfo = new PageInfo<>(patientList);
+        //    return RespBean.ok("查询成功", pageInfo);
+        //}
+
+        List<Patient> patientList = patientService.selectByConditions(pname, did, pstatus);
         PageInfo<Patient> pageInfo = new PageInfo<>(patientList);
         return RespBean.ok("查询成功", pageInfo);
     }

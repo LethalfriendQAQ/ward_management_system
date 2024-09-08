@@ -64,6 +64,11 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public List<Patient> selectByDid(Integer did) {
+        return patientMapper.selectByDid(did);
+    }
+
+    @Override
     public Patient selectByPid(Long pid) {
         return patientMapper.selectByPid(pid);
     }
@@ -72,5 +77,10 @@ public class PatientServiceImpl implements PatientService {
 
     public List<Map<String, Object>> getPatientCountByDepartment() {
         return patientMapper.getPatientCountByDepartment();
+    }
+
+    @Override
+    public List<Patient> selectByConditions(String pname, Integer did, Integer pstatus) {
+        return patientMapper.selectByConditions(pname, did, pstatus);
     }
 }

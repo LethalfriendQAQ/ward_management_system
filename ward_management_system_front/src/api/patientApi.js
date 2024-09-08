@@ -14,11 +14,13 @@ const patientApi = {
     selectAll() {
         return service.get('/user/patient');
     },
-    selectByPage(pageNum, pname) {
-        return service.get('/user/patient', {
+    selectByPage(pageNum, pname, did, pstatus) {
+        return service.get('/user/patient/selectByPage', {
             params: {
                 pageNum,
-                pname
+                pname,
+                did,
+                pstatus
             }
         });
     },

@@ -25,5 +25,6 @@ public interface PatientMapper {
     List<Patient> selectByDid(Integer did);
 
     List<Map<String, Object>> getPatientCountByDepartment();
+    List<Patient> selectByConditions(@Param("pname") String pname,@Param("did") Integer did, @Param("pstatus") Integer pstatus);
 
 }

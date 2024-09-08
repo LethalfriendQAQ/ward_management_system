@@ -54,4 +54,18 @@
                  JOIN department d ON p.did = d.did
         GROUP BY d.dname;
     </select>
+    <select id="selectByConditions" parameterType="map" resultType="Patient">
+        SELECT * FROM patient
+        WHERE 1=1
+        <if test="pname != null and pname != ''">
+            AND pname LIKE CONCAT('%', #{pname}, '%')
+        </if>
+        <if test="pstatus != null">
+            AND status = #{pstatus}
+        </if>
+        <if test="did != null">
+            AND did = #{did}
+        </if>
+        ORDER BY `pstatus`
+    </select>
 </mapper>

@@ -10,19 +10,18 @@
                     <el-button type="success" plain @click="exportToExcel">导出 Excel</el-button>
                 </el-form-item>
                 <el-form-item style="float: right;">
-                    <el-radio-group v-model="radio1" @change="">
-                        <el-radio-button label="所有" value="" />
-                        <el-radio-button label="住院中" value="" />
-                        <el-radio-button label="已出院" value="" />
+                    <el-radio-group v-model="pstatus" @change="selectByPage(1);">
+                        <el-radio-button label="" value="">所有</el-radio-button>
+                        <el-radio-button label="1" value="1">住院中</el-radio-button>
+                        <el-radio-button label="2" value="2">已出院</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item style="float: right;">
-                    <el-input v-model="pname" placeholder="搜索对应科室下的患者" @input="" />
+                    <el-input v-model="did" placeholder="搜索对应科室下的患者" @input="selectByPage(1);" />
                 </el-form-item>
                 <el-form-item style="float: right;">
                     <el-input v-model="pname" placeholder="请输入要搜索的姓名" @input="selectByPage(1);" />
                 </el-form-item>
-
             </el-form>
             <el-table :data="pageInfo.list" border style="width: 100%">
                 <el-table-column prop="pid" label="ID" width="50px" />
@@ -233,7 +232,8 @@ import bedApi from '@/api/bedApi';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-
+const did = ref('');
+const pstatus = ref('');
 let pageNow;
 const pname = ref('');
 //分页信息
@@ -433,9 +433,14 @@ function getDepartmentName(did) {
     const department = departmentList.value.find(dep => dep.did === did);
     return department ? department.dname : '未知科室';
 }
+
+// watch(pstatus, (newValue) => {
+//     console.log(newValue);
+//     selectByPage(1); // 重新加载第一页数据
+// });
 //分页显示
 function selectByPage(pageNum) {
-    patientApi.selectByPage(pageNum, pname.value)
+    patientApi.selectByPage(pageNum, pname.value, did.value, pstatus.value)
         .then(resp => {
             pageInfo.value = resp.data;
             pageNow = resp.data.pageNum;
@@ -496,7 +501,7 @@ function update() {
         .then(resp => {
             if (resp.code == 10000) {
                 console.log(resp);
-                
+
                 //弹出消息
                 ElMessage.success(resp.msg);
                 //隐藏对话框

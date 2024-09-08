@@ -12,7 +12,9 @@ public interface PatientService {
     boolean update(Patient p);
     List<Patient> selectAll();
     List<Patient> selectByPname(String pname);
+    List<Patient> selectByDid(Integer did);
     Patient selectByPid(Long pid);
     List<Map<String, Object>> getPatientCountByDepartment();
 
+    List<Patient> selectByConditions(String pname, Integer did, Integer pstatus);
 }
