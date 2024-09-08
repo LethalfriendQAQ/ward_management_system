@@ -2,10 +2,12 @@ package com.st.controller;
 
 
 import com.st.bean.Bed;
+import com.st.bean.DepartmentBedOccupancyDTO;
 import com.st.bean.RespBean;
 import com.st.exception.SteduException;
 import com.st.service.BedService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,5 +64,11 @@ public class BedController {
     public RespBean selectFreeBedsByWnumber(@RequestParam String wnumber) {
         List<Bed> freeBeds = bedService.selectFreeBedsByWnumber(wnumber);
         return RespBean.ok("",freeBeds);
+    }
+
+    @GetMapping("/occupancy")
+    public ResponseEntity<List<DepartmentBedOccupancyDTO>> getBedOccupancyByDepartment() {
+        List<DepartmentBedOccupancyDTO> occupancyRates = bedService.getBedOccupancyByDepartment();
+        return ResponseEntity.ok(occupancyRates);
     }
 }

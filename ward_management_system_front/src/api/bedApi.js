@@ -24,6 +24,9 @@ const bedApi = {
     },
     selectFreeBedsByWnumber(wnumber) {
         return service.get('/user/bed/selectFreeBedsByWnumber', { params: { wnumber } })
+    },
+    getBedOccupancyByDepartment() {
+        return service.get('/user/bed/occupancy');
     }
 }
 

@@ -1,20 +1,22 @@
 <template>
-  <div id="main"></div>
+  <div class="chart-container">
+    <div id="main"></div>
+    <div id="bedChart"></div>
+  </div>
 </template>
 
 <script setup>
 import * as echarts from "echarts";
 import { onMounted } from "vue";
 import patientApi from "@/api/patientApi";
+import bedApi from "@/api/bedApi";
 
 function init() {
   patientApi.getPatientCountByDepartment()
     .then(resp => {
       console.log("API response:", resp);
 
-      // 确保 resp 是一个数组
       if (Array.isArray(resp)) {
-        // 处理数据
         let data = resp.map(item => ({
           value: item.patientCount,
           name: item.departmentName
@@ -22,11 +24,9 @@ function init() {
 
         var myChart = echarts.init(document.getElementById('main'));
 
-        // 指定图表的配置项和数据
         var option = {
           title: {
             text: '各部门患者数量',
-            // left: 'center',
             top: 20,
             textStyle: {
               color: '#000000'
@@ -70,11 +70,6 @@ function init() {
                 length: 10,
                 length2: 20
               },
-              // itemStyle: {
-              //   color: '#5694b6',
-              //   shadowBlur: 200,
-              //   shadowColor: 'rgba(0, 0, 0, 0.5)'
-              // },
               animationType: 'scale',
               animationEasing: 'elasticOut',
               animationDelay: function (idx) {
@@ -84,7 +79,6 @@ function init() {
           ]
         };
 
-        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
       } else {
         console.error("API response data is not an array");
@@ -95,16 +89,90 @@ function init() {
     });
 }
 
+function initBedChart() {
+  bedApi.getBedOccupancyByDepartment()
+    .then(resp => {
+      console.log("API response:", resp);
 
-// 生命周期函数，自动执行初始化
+      if (Array.isArray(resp)) {
+        let departmentNames = resp.map(item => item.departmentId);
+        let occupancyRates = resp.map(item => item.occupancyRate);
+
+        var myChart = echarts.init(document.getElementById('bedChart'));
+
+        var option = {
+          title: {
+            text: '各科室病床占有率',
+            left: 'center',
+            textStyle: {
+              color: '#000000'
+            }
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          xAxis: {
+            type: 'category',
+            data: departmentNames,
+            axisLabel: {
+              rotate: 45  // 避免标签重叠
+            }
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value} %'
+            }
+          },
+          series: [
+            {
+              name: '占有率',
+              type: 'bar',
+              data: occupancyRates,
+              label: {
+                show: true,
+                position: 'top',
+                formatter: '{c} %'
+              },
+              itemStyle: {
+                color: '#73C0DE'
+              }
+            }
+          ]
+        };
+
+        myChart.setOption(option);
+      } else {
+        console.error("API response data is not an array");
+      }
+    })
+    .catch(error => {
+      console.error("API request error:", error);
+    });
+}
+
 onMounted(() => {
   init();
+  initBedChart();
 });
 </script>
 
 <style scoped>
+.chart-container {
+  display: flex;
+  justify-content: space-between; /* 确保图表在容器中有空间分隔 */
+}
+
 #main {
-  width: 900px;
-  height: 80vh;
+  width: 50%;   /* 设置宽度占容器的50% */
+  height: 80vh; /* 设置图表的高度 */
+}
+
+#bedChart {
+  width: 50%;   /* 设置宽度占容器的50% */
+  height: 400px; /* 设置图表的高度 */
 }
 </style>
