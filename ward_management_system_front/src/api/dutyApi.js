@@ -8,6 +8,9 @@ const dutyApi = {
     update(duty) {
         return service.put('/user/duty' ,duty);
     },
+    delete(dutyId) {
+        return service.delete(`/user/duty/${dutyId}`)
+    },
     //查询所有
     selectAll() {
         return service.get('/user/duty/selectAll');

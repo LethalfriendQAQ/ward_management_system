@@ -28,7 +28,7 @@
                         </el-popover>
                         <el-button size="small" type="primary" @click="selectByDutyId(scope.row.dutyId)">修改</el-button>
                         <el-popconfirm title="你确定要删除该值班安排吗？" confirm-button-text="确认" cancel-button-text="取消"
-                            width="200px">
+                            width="200px" @confirm="deleteByDutyId(scope.row.dutyId)">
                             <template #reference>
                                 <el-button size="small" type="danger">删除</el-button>
                             </template>
@@ -180,8 +180,6 @@ function insert() {
             console.log(resp);
             
             if (resp.code == 10000) {
-                console.log(resp);
-
                 ElMessage.success(resp.msg);
                 //隐藏对话框
                 addDialogShow.value = false;
@@ -260,6 +258,21 @@ function insertDutyIdAndNid() {
             //隐藏分配员工的对话框
             setDutyDialogShow.value = false;
             selectAll();
+        });
+}
+
+//定义方法完成值班安排删除
+function deleteByDutyId(dutyId) {
+    dutyApi.delete(dutyId) 
+        .then(resp => {
+            //判断-弹出消息-刷新表格
+            if (resp.code == 10000) {
+                //弹出消息
+                ElMessage.success(resp.msg);
+            } else {
+                //弹出消息
+                ElMessage.error(resp.msg);
+            }
         });
 }
 

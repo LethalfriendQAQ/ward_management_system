@@ -27,20 +27,20 @@ public class DutyServiceImpl implements DutyService {
     @Override
     public boolean insert(Duty duty) {
 
-        //获取原始的时间字段
-        Date dutyWorkTime = duty.getDutyWorkTime();
-        Date dutyClosingTime = duty.getDutyClosingTime();
-
-        if (dutyWorkTime != null) {
-            LocalDateTime localDateTime = convertToLocalDateTime(dutyWorkTime);
-            localDateTime = localDateTime.plusHours(8);
-            duty.setDutyWorkTime(convertToDate(localDateTime));
-        }
-        if (dutyClosingTime != null) {
-            LocalDateTime localDateTime = convertToLocalDateTime(dutyClosingTime);
-            localDateTime = localDateTime.plusHours(8);
-            duty.setDutyClosingTime(convertToDate(localDateTime));
-        }
+        ////获取原始的时间字段
+        //Date dutyWorkTime = duty.getDutyWorkTime();
+        //Date dutyClosingTime = duty.getDutyClosingTime();
+        //
+        //if (dutyWorkTime != null) {
+        //    LocalDateTime localDateTime = convertToLocalDateTime(dutyWorkTime);
+        //    localDateTime = localDateTime.plusHours(8);
+        //    duty.setDutyWorkTime(convertToDate(localDateTime));
+        //}
+        //if (dutyClosingTime != null) {
+        //    LocalDateTime localDateTime = convertToLocalDateTime(dutyClosingTime);
+        //    localDateTime = localDateTime.plusHours(8);
+        //    duty.setDutyClosingTime(convertToDate(localDateTime));
+        //}
         return dutyMapper.insert(duty) == 1;
     }
 
