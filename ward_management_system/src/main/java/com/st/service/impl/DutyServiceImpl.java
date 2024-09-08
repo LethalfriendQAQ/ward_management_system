@@ -46,6 +46,11 @@ public class DutyServiceImpl implements DutyService {
 
     @Override
     public boolean delete(Long dutyId) {
+
+        int intDutyId = dutyId.intValue(); // 转换为基本类型 int
+        Integer integerDutyId = Integer.valueOf(intDutyId); // 转换为 Integer 对象
+        //删除值班和护士的关系
+        dutyMapper.deleteDutyIdAndNidByDutyId(integerDutyId);
         return dutyMapper.delete(dutyId) == 1;
     }
 

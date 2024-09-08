@@ -269,6 +269,7 @@ function deleteByDutyId(dutyId) {
             if (resp.code == 10000) {
                 //弹出消息
                 ElMessage.success(resp.msg);
+                selectAll();
             } else {
                 //弹出消息
                 ElMessage.error(resp.msg);
