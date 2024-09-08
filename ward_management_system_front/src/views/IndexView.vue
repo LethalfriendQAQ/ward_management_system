@@ -26,7 +26,7 @@ function init() {
         var option = {
           title: {
             text: '各部门患者数量',
-            left: 'center',
+            // left: 'center',
             top: 20,
             textStyle: {
               color: '#000000'
@@ -70,11 +70,11 @@ function init() {
                 length: 10,
                 length2: 20
               },
-              itemStyle: {
-                color: '#5694b6',
-                shadowBlur: 200,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              },
+              // itemStyle: {
+              //   color: '#5694b6',
+              //   shadowBlur: 200,
+              //   shadowColor: 'rgba(0, 0, 0, 0.5)'
+              // },
               animationType: 'scale',
               animationEasing: 'elasticOut',
               animationDelay: function (idx) {
@@ -94,6 +94,7 @@ function init() {
       console.error("API request error:", error);
     });
 }
+
 
 // 生命周期函数，自动执行初始化
 onMounted(() => {
