@@ -48,4 +48,10 @@
     <select id="selectByDid" resultType="patient">
         SELECT * FROM `patient` WHERE `did`=#{did}
     </select>
+    <select id="getPatientCountByDepartment" resultType="java.util.Map">
+        SELECT d.dname AS departmentName, COUNT(p.pno) AS patientCount
+        FROM patient p
+                 JOIN department d ON p.did = d.did
+        GROUP BY d.dname;
+    </select>
 </mapper>

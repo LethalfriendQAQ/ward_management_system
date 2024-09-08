@@ -4,6 +4,7 @@ import com.st.bean.Patient;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PatientMapper {
     //添加
@@ -22,5 +23,7 @@ public interface PatientMapper {
     Patient selectByPid(Long pid);
 
     List<Patient> selectByDid(Integer did);
+
+    List<Map<String, Object>> getPatientCountByDepartment();
 
 }

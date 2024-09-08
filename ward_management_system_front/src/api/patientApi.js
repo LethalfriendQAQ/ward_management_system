@@ -24,6 +24,9 @@ const patientApi = {
     },
     selectByPid(pid) {
         return service.get(`/user/patient/${pid}`);
+    },
+    getPatientCountByDepartment() {
+        return service.get('/user/patient/patientCountByDepartment');
     }
 }
 

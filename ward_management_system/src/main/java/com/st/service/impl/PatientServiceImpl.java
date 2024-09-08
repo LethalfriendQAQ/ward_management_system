@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -65,5 +66,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient selectByPid(Long pid) {
         return patientMapper.selectByPid(pid);
+    }
+
+
+
+    public List<Map<String, Object>> getPatientCountByDepartment() {
+        return patientMapper.getPatientCountByDepartment();
     }
 }

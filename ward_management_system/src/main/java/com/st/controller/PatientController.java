@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -63,5 +64,10 @@ public class PatientController {
     public RespBean selectByPid(@PathVariable("pid") Long pid) {
         Patient patient = patientService.selectByPid(pid);
         return RespBean.ok("", patient);
+    }
+
+    @GetMapping("/patientCountByDepartment")
+    public List<Map<String, Object>> getPatientCountByDepartment() {
+        return patientService.getPatientCountByDepartment();
     }
 }

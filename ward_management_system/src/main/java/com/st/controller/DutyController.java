@@ -22,7 +22,7 @@ public class DutyController {
     @Autowired
     private NurseService nurseService;
 
-    @PostMapping
+    @PostMapping("/insert/{duty}")
     public RespBean insert(@RequestBody Duty duty) {
         //添加
         if (dutyService.insert(duty)) {

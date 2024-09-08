@@ -3,7 +3,7 @@ import service from ".";
 const dutyApi = {
     //添加
     insert(duty) {
-        return service.post('/user/duty', duty)
+        return service.post(`/user/duty${duty}`)
     },
     //查询所有
     selectAll() {

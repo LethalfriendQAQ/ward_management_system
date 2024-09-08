@@ -46,23 +46,19 @@
                 <el-input v-model="dutyAdd.dutyDate" autocomplete="off" />
             </el-form-item>
             <el-form-item label="上班时间" label-width="20%">
-                <el-input v-model="dutyAdd.dutyWorkTime" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="下班时间" label-width="20%">
-                <el-input v-model="dutyAdd.dutyClosingTime" autocomplete="off" />
-            </el-form-item>
-            <!-- <el-form-item>
-                <template>
-                    <div class="demo-range">
-                        <el-time-picker v-model="value1" is-range range-separator="To" start-placeholder="Start time"
-                            end-placeholder="End time" />
-                        <el-time-picker v-model="value2" is-range arrow-control range-separator="To"
-                            start-placeholder="Start time" end-placeholder="End time" />
+                <template #default="scope">
+                    <div class="example-basic">
+                        <el-time-picker v-model="dutyAdd.dutyWorkTime" arrow-control placeholder="上班打卡时间" />
                     </div>
                 </template>
-            </el-form-item> -->
-
-
+            </el-form-item>
+            <el-form-item label="下班时间" label-width="20%">
+                <template #default="scope">
+                    <div class="example-basic">
+                        <el-time-picker v-model="dutyAdd.dutyClosingTime" arrow-control placeholder="下班打卡时间" />
+                    </div>
+                </template>
+            </el-form-item>
             <el-form-item label="任务进度" label-width="20%">
                 <el-input v-model="dutyAdd.dutyTaskProgress" autocomplete="off" />
             </el-form-item>
@@ -134,11 +130,7 @@ function insert() {
     dutyApi.insert()
         .then(resp => {
             if (resp.code == 10000) {
-                ElMessage({
-                    message: resp.msg,
-                    type: 'success',
-                    duration: 1200
-                });
+                ElMessage.success(resp.msg);
                 //隐藏对话框
                 addDialogShow.value = false;
                 //清空对话框中的数据
@@ -153,11 +145,7 @@ function insert() {
                 //刷新表格数据
                 selectAll();
             } else {
-                ElMessage({
-                    message: resp.msg,
-                    type: 'error',
-                    duration: 2000
-                });
+                ElMessage.error(resp.msg);
             }
         })
 }
