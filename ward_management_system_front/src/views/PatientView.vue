@@ -23,7 +23,7 @@
                     <el-input v-model="pname" placeholder="请输入要搜索的姓名" @input="selectByPage(1);" />
                 </el-form-item>
             </el-form>
-            <el-table :data="pageInfo.list" border style="width: 100%">
+            <el-table  :data="pageInfo.list" border style="width: 100%">
                 <el-table-column prop="pid" label="ID" width="50px" />
                 <el-table-column prop="pno" label="编号" width="70px" />
                 <el-table-column prop="eavatar" label="头像" width="70px">
@@ -442,6 +442,7 @@ function getDepartmentName(did) {
 function selectByPage(pageNum) {
     patientApi.selectByPage(pageNum, pname.value, did.value, pstatus.value)
         .then(resp => {
+            console.log(resp);
             pageInfo.value = resp.data;
             pageNow = resp.data.pageNum;
         });

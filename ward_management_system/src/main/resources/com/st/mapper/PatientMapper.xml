@@ -61,7 +61,7 @@
             AND pname LIKE CONCAT('%', #{pname}, '%')
         </if>
         <if test="pstatus != null">
-            AND status = #{pstatus}
+            AND pstatus = #{pstatus}
         </if>
         <if test="did != null">
             AND did = #{did}
