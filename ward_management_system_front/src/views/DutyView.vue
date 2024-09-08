@@ -26,7 +26,7 @@
                                 <el-table-column property="department.dname" label="护士部门" />
                             </el-table>
                         </el-popover>
-                        <el-button size="small" type="primary">修改</el-button>
+                        <el-button size="small" type="primary" @click="selectByDutyId(scope.row.dutyId)">修改</el-button>
                         <el-popconfirm title="你确定要删除该值班安排吗？" confirm-button-text="确认" cancel-button-text="取消"
                             width="200px">
                             <template #reference>
@@ -47,16 +47,14 @@
             </el-form-item>
             <el-form-item label="上班时间" label-width="20%">
                 <template #default="scope">
-                    <div class="example-basic">
-                        <el-time-picker v-model="dutyAdd.dutyWorkTime" arrow-control placeholder="上班打卡时间" />
-                    </div>
+                    <el-time-select v-model="dutyAdd.dutyWorkTime" style="width: 240px" start="08:30" step="00:30" end="22:30"
+                        placeholder="上班打卡时间" />
                 </template>
             </el-form-item>
             <el-form-item label="下班时间" label-width="20%">
                 <template #default="scope">
-                    <div class="example-basic">
-                        <el-time-picker v-model="dutyAdd.dutyClosingTime" arrow-control placeholder="下班打卡时间" />
-                    </div>
+                    <el-time-select v-model="dutyAdd.dutyClosingTime" style="width: 240px" start="08:30" step="00:30" end="22:30"
+                        placeholder="下班打卡时间" />
                 </template>
             </el-form-item>
             <el-form-item label="任务进度" label-width="20%">
@@ -74,6 +72,40 @@
         </template>
     </el-dialog>
     <!-- 添加对话框结束 -->
+
+    <!-- 修改对话框开始 -->
+    <el-dialog v-model="updateDialogShow" title="修改值班" width="500">
+        <el-form>
+            <el-form-item label="值班时间" label-width="20%">
+                <el-input v-model="dutyUpdate.dutyDate" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="上班时间" label-width="20%">
+                <template #default="scope">
+                    <el-time-select v-model="dutyUpdate.dutyWorkTime" style="width: 240px" start="08:30" step="00:30" end="22:30"
+                        placeholder="上班打卡时间" />
+                </template>
+            </el-form-item>
+            <el-form-item label="下班时间" label-width="20%">
+                <template #default="scope">
+                    <el-time-select v-model="dutyUpdate.dutyClosingTime" style="width: 240px" start="08:30" step="00:30" end="22:30"
+                        placeholder="下班打卡时间" />
+                </template>
+            </el-form-item>
+            <el-form-item label="任务进度" label-width="20%">
+                <el-input v-model="dutyUpdate.dutyTaskProgress" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="值班详情" label-width="20%">
+                <el-input v-model="dutyUpdate.dutyDetails" autocomplete="off" />
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="updateDialogShow = false">取消</el-button>
+                <el-button type="primary" @click="update">确认</el-button>
+            </div>
+        </template>
+    </el-dialog>
+    <!-- 修改对话框结束 -->
 
 
     <!-- 分配护士对话框开始 -->
@@ -94,14 +126,6 @@ import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import dutyApi from '@/api/dutyApi';
 
-const value1 = ref < [Date, Date] > ([
-    new Date(2016, 9, 10, 8, 40),
-    new Date(2016, 9, 10, 9, 40),
-])
-const value2 = ref < [Date, Date] > ([
-    new Date(2016, 9, 10, 8, 40),
-    new Date(2016, 9, 10, 9, 40),
-])
 
 const dutyList = ref([]);
 //是否展示分配护士对话框
@@ -116,6 +140,8 @@ const setDutyDialogShow = ref(false);
 
 const addDialogShow = ref(false);
 
+const updateDialogShow = ref(false);
+
 const dutyAdd = ref({
     dutyDate: '',
     dutyWorkTime: '',
@@ -124,16 +150,38 @@ const dutyAdd = ref({
     dutyDetails: '',
     nurses: ''
 })
+const dutyUpdate = ref({
+    dutyId: '',
+    dutyDate: '',
+    dutyWorkTime: '',
+    dutyClosingTime: '',
+    dutyTaskProgress: '',
+    dutyDetails: '',
+    nurses: ''
+})
+
+//查询修改的id并显示修改对话框
+function selectByDutyId(dutyId) {
+    dutyApi.selectByDutyId(dutyId)
+        .then(resp => {
+            console.log(resp);
+            dutyUpdate.value = resp.data;
+            //显示修改对话框
+            updateDialogShow.value = true
+        })
+}
 
 //定义方法完成值班安排添加
 function insert() {
     console.log(1111);
-    
+
     dutyApi.insert()
         .then(resp => {
+            console.log(resp);
+            
             if (resp.code == 10000) {
                 console.log(resp);
-                
+
                 ElMessage.success(resp.msg);
                 //隐藏对话框
                 addDialogShow.value = false;
@@ -152,6 +200,34 @@ function insert() {
                 ElMessage.error(resp.msg);
             }
         })
+}
+
+//定义方法完成值班修改
+function update() {
+    dutyApi.update(dutyUpdate.value)
+        .then(resp => {
+            console.log(resp);
+            
+            if (resp.code == 10000) {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'success',
+                    duration: 1200
+                });
+                //隐藏对话框
+                updateDialogShow.value = false;
+                //刷新表格数据
+                selectAll();
+            } else {
+                //弹出消息
+                ElMessage({
+                    message: resp.msg,
+                    type: 'error',
+                    duration: 2000
+                });
+            }
+        });
 }
 
 //查询所有值班安排的信息

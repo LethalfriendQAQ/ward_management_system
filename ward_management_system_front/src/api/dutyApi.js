@@ -3,7 +3,10 @@ import service from ".";
 const dutyApi = {
     //添加
     insert(duty) {
-        return service.post(`/user/duty${duty}`)
+        return service.post(`/user/duty/insert/${duty}`)
+    },
+    update(duty) {
+        return service.put('/user/duty' ,duty);
     },
     //查询所有
     selectAll() {
@@ -19,6 +22,9 @@ const dutyApi = {
             dutyId,
             nids
         });
+    },
+    selectByDutyId(dutyId) {
+        return service.get(`/user/duty/selectByDutyId/${dutyId}`)
     }
 };
 

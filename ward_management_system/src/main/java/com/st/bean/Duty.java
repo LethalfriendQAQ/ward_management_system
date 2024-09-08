@@ -18,10 +18,10 @@ public class Duty implements Serializable {
     //值班日期
     private String dutyDate;
     //上班时间
-    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
     private Date dutyWorkTime;
     //下班时间
-    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
     private Date dutyClosingTime;
     //任务进度
     private Integer dutyTaskProgress;

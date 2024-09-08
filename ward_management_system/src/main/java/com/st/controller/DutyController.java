@@ -24,6 +24,7 @@ public class DutyController {
 
     @PostMapping("/insert/{duty}")
     public RespBean insert(@RequestBody Duty duty) {
+        System.out.println(111111);
         //添加
         if (dutyService.insert(duty)) {
             return RespBean.ok("添加成功");
@@ -50,6 +51,11 @@ public class DutyController {
         } else {
             return RespBean.error("修改失败，请重新添加");
         }
+    }
+
+    @GetMapping("/selectByDutyId/{dutyId}")
+    public RespBean selectByDutyId(@PathVariable("dutyId") Long dutyId) {
+        return RespBean.ok("", dutyService.selectByDutyId(dutyId));
     }
 
     @GetMapping("/selectAll")

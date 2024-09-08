@@ -58,4 +58,10 @@
     <select id="selectNidByDutyId" resultType="java.lang.Long">
         SELECT `nid` FROM `duty_nurse` WHERE `duty_id`=#{dutyId}
     </select>
+    <select id="selectByDutyId" resultType="com.st.bean.Duty">
+        SELECT * FROM `duty` WHERE `duty_id`=#{dutyId}
+    </select>
+    <!--<select id="selectByDutyId" resultType="java.util.Duty">-->
+    <!--    -->
+    <!--</select>-->
 </mapper>

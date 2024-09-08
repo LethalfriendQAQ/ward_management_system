@@ -9,6 +9,7 @@ public interface DutyMapper {
     int insert(Duty duty);
     int delete(Long dutyId);
     int update(Duty duty);
+    Duty selectByDutyId(Long dutyId);
     //查询所有的值班
     List<Duty> selectAll();
     //获取某个值班和所有的护士的nid
