@@ -6,12 +6,23 @@ import com.st.service.DutyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class DutyServiceImpl implements DutyService {
     @Autowired
     private DutyMapper dutyMapper;
+    private LocalDateTime convertToLocalDateTime(Date date) {
+        return ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    private Date convertToDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
 
     @Override
     public boolean insert(Duty duty) {
@@ -25,6 +36,20 @@ public class DutyServiceImpl implements DutyService {
 
     @Override
     public boolean update(Duty duty) {
+        //获取原始的时间字段
+        Date dutyWorkTime = duty.getDutyWorkTime();
+        Date dutyClosingTime = duty.getDutyClosingTime();
+
+        if (dutyWorkTime != null) {
+            LocalDateTime localDateTime = convertToLocalDateTime(dutyWorkTime);
+            localDateTime = localDateTime.plusHours(8);
+            duty.setDutyWorkTime(convertToDate(localDateTime));
+        }
+        if (dutyClosingTime != null) {
+            LocalDateTime localDateTime = convertToLocalDateTime(dutyClosingTime);
+            localDateTime = localDateTime.plusHours(8);
+            duty.setDutyClosingTime(convertToDate(localDateTime));
+        }
         return dutyMapper.update(duty) == 1;
     }
 

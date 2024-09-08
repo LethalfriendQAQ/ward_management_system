@@ -127,9 +127,13 @@ const dutyAdd = ref({
 
 //定义方法完成值班安排添加
 function insert() {
+    console.log(1111);
+    
     dutyApi.insert()
         .then(resp => {
             if (resp.code == 10000) {
+                console.log(resp);
+                
                 ElMessage.success(resp.msg);
                 //隐藏对话框
                 addDialogShow.value = false;
