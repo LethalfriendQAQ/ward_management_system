@@ -1,13 +1,23 @@
 <template>
     <el-col :span="24">
         <el-card>
-            <!-- <el-button type="primary" @click="showAddDialog">添加</el-button> -->
             <el-form :inline="true" :model="formInline" class="demo-form-inline">
                 <el-form-item>
                     <el-button type="primary" @click="showAddDialog">添加</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="success" plain @click="exportToExcel">导出 Excel</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-upload
+                        class="upload-demo"
+                        action="#"
+                        :before-upload="beforeUpload"
+                        :on-change="handleFileChange"
+                        accept=".xlsx, .xls"
+                    >
+                        <el-button type="success" plain>导入 Excel</el-button>
+                    </el-upload>
                 </el-form-item>
                 <el-form-item style="float: right;">
                     <el-radio-group v-model="pstatus" @change="selectByPage(1);">
@@ -23,7 +33,7 @@
                     <el-input v-model="pname" placeholder="请输入要搜索的姓名" @input="selectByPage(1);" />
                 </el-form-item>
             </el-form>
-            <el-table  :data="pageInfo.list" border style="width: 100%">
+            <el-table :data="pageInfo.list" border style="width: 100%">
                 <el-table-column prop="pid" label="ID" width="50px" />
                 <el-table-column prop="pno" label="编号" width="70px" />
                 <el-table-column prop="eavatar" label="头像" width="70px">
@@ -295,6 +305,9 @@ const patientUpdate = ref({
     ptelephone: '',
     did: ''
 });
+
+
+
 
 // 导出 Excel 方法
 function exportToExcel() {

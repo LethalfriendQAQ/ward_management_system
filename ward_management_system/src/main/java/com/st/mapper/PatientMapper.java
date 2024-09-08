@@ -16,7 +16,7 @@ public interface PatientMapper {
     //修改
     int update(Patient p);
 
-    int updateNnoByPno(@Param("newNno") String newNno, @Param("pno") String pno);
+    int updateNnoByPno(@Param("oldNno") String oldNno, @Param("pno") String pno);
 
     //查询所有患者
     List<Patient> selectAll();
