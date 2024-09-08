@@ -24,4 +24,6 @@ public interface BedMapper {
     List<Bed> selectByWnumber(String wnumber);
     Bed selectByBid(Long bid);
     List<Bed> selectFreeBedsByWnumber(@Param("number") String wnumber);
+
+    //Bed selectWnumberByBid(Long bid);
 }

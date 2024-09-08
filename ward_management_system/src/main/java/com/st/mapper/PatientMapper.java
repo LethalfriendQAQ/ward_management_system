@@ -15,6 +15,7 @@ public interface PatientMapper {
     int setPstatus(@Param("pid") Long pid, @Param("pstatus") Integer pstatus);
     //修改
     int update(Patient p);
+
     //查询所有患者
     List<Patient> selectAll();
     //根据姓名查询

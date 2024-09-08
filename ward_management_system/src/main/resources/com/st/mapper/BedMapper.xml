@@ -56,4 +56,5 @@
         WHERE wnumber = #{wnumber}
           AND (pno IS NULL OR pno = '')
     </select>
+
 </mapper>

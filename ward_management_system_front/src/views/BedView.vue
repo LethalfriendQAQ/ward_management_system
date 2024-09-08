@@ -44,7 +44,7 @@
             <el-form-item label="病床号" label-width="20%">
                 <el-input v-model="bedAdd.bnumber" autocomplete="off" />
             </el-form-item>
-            
+
         </el-form>
         <template #footer>
             <div class="dialog-footer">
@@ -65,8 +65,13 @@
             <el-form-item label="患者编号" label-width="20%">
                 <el-input v-model="bedUpdate.pno" disabled="true" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="负责护士" label-width="20%">
+            <!-- <el-form-item label="负责护士" label-width="20%">
                 <el-input v-model="bedUpdate.nno" autocomplete="off" />
+            </el-form-item> -->
+            <el-form-item label="护士编号" label-width="20%">
+                <el-select v-model="bedUpdate.nno" placeholder="请选择护士" style="width: 300px;">
+                    <el-option v-for="(nurse, index) in nurseList" :key="index" :label="nurse.nno" :value="nurse.nno" />
+                </el-select>
             </el-form-item>
             <el-form-item label="病房号" label-width="20%">
                 <el-input v-model="bedUpdate.wnumber" autocomplete="off" />
@@ -85,7 +90,12 @@
 import bedApi from '@/api/bedApi';
 import { ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
+import departmentApi from '@/api/departmentApi';
+import wardApi from '@/api/wardApi';
+import nurseApi from '@/api/nurseApi';
 
+
+const nurseList = ref([]);
 const bedList = ref([]);
 const addDialogShow = ref(false);
 const bedAdd = ref({
@@ -170,14 +180,36 @@ function update() {
         });
 }
 
+// function selectByBid(bid) {
+//     bedApi.selectByBid(bid)
+//         .then(resp => {
+//             bedUpdate.value = resp.data;
+//             //显示修改对话框
+//             updateDialogShow.value = true
+//         })
+// }
+
 function selectByBid(bid) {
     bedApi.selectByBid(bid)
         .then(resp => {
-            bedUpdate.value = resp.data;
-            //显示修改对话框
-            updateDialogShow.value = true
-        })
+            const bedData = resp.data;
+            bedUpdate.value = bedData;
+            //获取在病床所在科室的信息
+            wardApi.selectByWnumber(bedData.wnumber)
+                .then(wardResp => {
+                    const did = wardResp.data.did;
+                    //获取该科室的护士列表
+                    nurseApi.selectByDid(did)
+                        .then(nurseResp => {
+                            nurseList.value = nurseResp.data;
+
+                            //显示修改对话框
+                            updateDialogShow.value = true;
+                        });
+                });
+        });
 }
+
 
 function selectAll() {
     bedApi.selectAll()

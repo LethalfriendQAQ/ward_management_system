@@ -54,4 +54,10 @@ public class WardController {
         Ward ward = wardService.selectByWid(wid);
         return RespBean.ok("", ward);
     }
+
+    @GetMapping("/byWnumber/{wnumber}")
+    public RespBean selectByWnumber(@PathVariable("wnumber") String  wnumber) {
+        Ward ward = wardService.selectByWnumber(wnumber);
+        return RespBean.ok("", ward);
+    }
 }
