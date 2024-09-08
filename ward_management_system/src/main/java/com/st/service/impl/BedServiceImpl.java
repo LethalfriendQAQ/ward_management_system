@@ -4,6 +4,7 @@ import com.st.bean.Bed;
 import com.st.bean.DepartmentBedOccupancyDTO;
 import com.st.bean.Ward;
 import com.st.mapper.BedMapper;
+import com.st.mapper.PatientMapper;
 import com.st.mapper.WardMapper;
 import com.st.service.BedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class BedServiceImpl implements BedService {
     private BedMapper bedMapper;
     @Autowired
     private WardMapper wardMapper;
+    @Autowired
+    private PatientMapper patientMapper;
 
     @Override
     public boolean insert(Bed b) {
@@ -33,6 +36,7 @@ public class BedServiceImpl implements BedService {
 
     @Override
     public boolean update(Bed b) {
+        patientMapper.updateNnoByPno(b.getNno(), b.getPno());
         return bedMapper.update(b) == 1;
     }
 

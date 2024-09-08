@@ -27,6 +27,11 @@
     <update id="setPstatus">
         UPDATE `patient` SET `pstatus`=#{pstatus} WHERE `pid`=#{pid}
     </update>
+    <update id="updateNnoByPno">
+        UPDATE `patient`
+        SET `nno` = #{newNno}
+        WHERE `pno` = #{pno}
+    </update>
     <select id="selectByPid" resultType="patient">
         SELECT * FROM `patient`WHERE `pid`=#{pid}
     </select>

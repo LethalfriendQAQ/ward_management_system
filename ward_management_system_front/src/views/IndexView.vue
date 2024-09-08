@@ -118,7 +118,7 @@ function initBedChart() {
             type: 'category',
             data: departmentNames,
             axisLabel: {
-              rotate: 45  // 避免标签重叠
+              //rotate: 45  // 避免标签重叠
             }
           },
           yAxis: {

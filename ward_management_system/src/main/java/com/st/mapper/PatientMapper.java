@@ -16,6 +16,8 @@ public interface PatientMapper {
     //修改
     int update(Patient p);
 
+    int updateNnoByPno(@Param("newNno") String newNno, @Param("pno") String pno);
+
     //查询所有患者
     List<Patient> selectAll();
     //根据姓名查询
