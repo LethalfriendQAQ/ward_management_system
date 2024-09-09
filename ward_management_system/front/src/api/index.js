@@ -23,6 +23,11 @@ service.interceptors.request.use(function (config) {
 
 //axios的响应拦截器
 service.interceptors.response.use(resp => {
+  console.log(resp);
+  //获取续期的jwt
+  let token = resp.headers.token;
+  //将续期的jwt放在sessionStorage中
+  sessionStorage.setItem("token", token);
   return resp.data;
 }, error => {
   if (error.status == 403) {
