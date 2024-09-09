@@ -54,6 +54,23 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     }
   ]
-})
+});
+
+//导航守卫
+router.beforeEach((to, from) => {
+  //to - 要访问的位置
+  //from - 其实位置
+  if(to.path == '/login') {
+    return true;
+  } else {
+    //判断sessionStorage中是否有token
+    if(!sessionStorage.getItem('token')) {
+      return "/login";
+    } else {
+      return true;
+    }
+  }
+});
+
 
 export default router
