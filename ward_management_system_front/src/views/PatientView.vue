@@ -8,7 +8,7 @@
                 <el-form-item>
                     <el-button type="success" plain @click="exportToExcel">导出 Excel</el-button>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="height: 32px;">
                     <el-upload
                         class="upload-demo"
                         action="#"
