@@ -138,7 +138,7 @@
                 <el-input v-model="patientAdd.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
             <el-form-item label="头像" label-width="20%">
-                <el-upload class="avatar-uploader" action="http://localhost:8080/user/upload" name="pic"
+                <el-upload class="avatar-uploader" action="http://localhost:8080/user/upload" name="pic" :headers="headers"
                     :show-file-list="false" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccessAdd">
                     <img v-if="imageUrlAdd" :src="imageUrlAdd" class="avatar" />
                     <el-icon v-else class="avatar-uploader-icon">
@@ -213,7 +213,7 @@
                 <el-input v-model="patientUpdate.bnumber" placeholder="请输入病床号，例如101-1" autocomplete="off" />
             </el-form-item>
             <el-form-item label="头像" label-width="20%">
-                <el-upload class="avatar-uploader" action="http://localhost:8080/user/upload" name="pic"
+                <el-upload class="avatar-uploader" action="http://localhost:8080/user/upload" name="pic" :headers="headers"
                     :show-file-list="false" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccessUpdate">
                     <img v-if="imageUrlUpdate" :src="imageUrlUpdate" class="avatar" />
                     <el-icon v-else class="avatar-uploader-icon">
@@ -235,12 +235,19 @@
 import departmentApi from '@/api/departmentApi';
 import patientApi from '@/api/patientApi';
 import nurseApi from '@/api/nurseApi';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { ElMessage } from 'element-plus';
 import wardApi from '@/api/wardApi';
 import bedApi from '@/api/bedApi';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+
+const headers = computed(() => {
+    let token = sessionStorage.getItem("token");
+    return {
+        token
+    }
+});
 
 const did = ref('');
 const pstatus = ref('');
@@ -305,8 +312,6 @@ const patientUpdate = ref({
     ptelephone: '',
     did: ''
 });
-
-
 
 
 // 导出 Excel 方法
@@ -497,6 +502,8 @@ function insert() {
                     wnumber: '',
                     bnumber: ''
                 }
+                console.log(patientAdd.value);
+                
                 //imgUrl清空
                 imageUrl.value = '';
 
