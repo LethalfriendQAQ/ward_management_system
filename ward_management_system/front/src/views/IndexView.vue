@@ -14,7 +14,6 @@ import bedApi from "@/api/bedApi";
 function init() {
   patientApi.getPatientCountByDepartment()
     .then(resp => {
-      console.log("API response:", resp);
 
       if (Array.isArray(resp)) {
         let data = resp.map(item => ({
@@ -92,8 +91,6 @@ function init() {
 function initBedChart() {
   bedApi.getBedOccupancyByDepartment()
     .then(resp => {
-      console.log("API response:", resp);
-
       if (Array.isArray(resp)) {
         let departmentNames = resp.map(item => item.departmentId);
         let occupancyRates = resp.map(item => item.occupancyRate);

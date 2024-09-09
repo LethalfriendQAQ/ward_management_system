@@ -5,6 +5,7 @@
         <el-header style="background-color: #1e1c23; color: white; padding: 0; margin: 0;width: 100%;">
           <img src="/images/logo.png" alt="Logo"
             style="height: 50px; margin-left: 20px; padding: 0; margin: 0; width: 100%; width: 200px;">
+          <span>欢迎 {{ username }} </span>
           <el-button type="danger" @click="logout" style="float: right; margin: 15px" round>
             <a href="#" style="color: inherit; text-decoration: none;">退出登录</a>
           </el-button>
@@ -58,6 +59,10 @@
 <script setup>
 import router from '@/router'
 import { RouterView, RouterLink } from 'vue-router';
+import adminApi from "@/api/adminApi.js";
+import {ref} from "vue";
+
+const username = ref('');
 
 function toPage(indexPath) {
   //编程式导航
@@ -70,4 +75,14 @@ function logout() {
   router.push('/login');
 }
 
+//获取已登录用户的信息
+function getLoginInfo() {
+  adminApi.getLoginInfo()
+      .then(resp => {
+        console.log(resp);
+          username.value = resp.data;
+      });
+}
+
+getLoginInfo();
 </script>

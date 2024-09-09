@@ -27,4 +27,14 @@ public class AdminServiceImpl implements AdminService {
         }
         return admin;
     }
+
+    @Override
+    public Admin selectById(Integer id) {
+        return adminMapper.selectById(id);
+    }
+
+    @Override
+    public Admin selectByUsername(String username) {
+        return adminMapper.selectByUsername(username);
+    }
 }
