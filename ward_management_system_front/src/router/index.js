@@ -7,11 +7,16 @@ import NurseView from '@/views/NurseView.vue'
 import WardView from '@/views/WardView.vue'
 import BedView from '@/views/BedView.vue'
 import DutyView from '@/views/DutyView.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    }, {
       path: '/',
       name: 'home',
       component: HomeView,
