@@ -37,8 +37,13 @@
                 </el-table-column>
             </el-table>
           <el-row class="row-bg" justify="center">
-            <el-pagination background layout="prev, pager, next" :total="pageInfo.total"
-                           :page-size="pageInfo.pageSize" @change="selectByPage" />
+            <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="pageInfo.total"
+                :page-size="pageInfo.pageSize"
+                @current-change="selectByPage"
+            />
           </el-row>
         </el-card>
     </el-col>
@@ -171,19 +176,19 @@ const pageInfo = ref({
 });
 let pageNow;
 function selectByPage(pageNum) {
+  pageNow = pageNum;
   dutyApi.selectByPage(pageNum)
       .then(resp => {
-        pageNow = pageNum;
-        console.log(pageNow);
         pageInfo.value = resp.data;
-        console.log(resp);
       });
 }
+
 
 //查询修改的id并显示修改对话框
 function selectByDutyId(dutyId) {
     dutyApi.selectByDutyId(dutyId)
         .then(resp => {
+          console.log()
             dutyUpdate.value = resp.data;
             //显示修改对话框
             updateDialogShow.value = true
@@ -219,7 +224,6 @@ function insert() {
 function update() {
     dutyApi.update(dutyUpdate.value)
         .then(resp => {
-            console.log(resp);
             if (resp.code == 10000) {
                 //弹出消息
                 ElMessage({

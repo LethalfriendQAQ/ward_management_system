@@ -217,8 +217,6 @@ function selectBywid(wid) {
 function deleteByWid(wid) {
     wardApi.delete(wid)
         .then(resp => {
-            console.log(resp);
-
             //判断-弹出消息-刷新表格
             if (resp.code == 10000) {
                 //弹出消息

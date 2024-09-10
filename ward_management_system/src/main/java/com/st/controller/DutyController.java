@@ -24,12 +24,14 @@ public class DutyController {
     @Autowired
     private NurseService nurseService;
 
-    @GetMapping("/selectByPage")
-    public RespBean selectByPage(Integer pageNum) {
+    @GetMapping("/selectByPage/{pageNum}")
+    public RespBean selectByPage(@PathVariable Integer pageNum) {
         if (pageNum == null) {
             pageNum = 1;
         }
         PageHelper.startPage(pageNum, 3);
+        System.out.println("-------------------------------------------");
+        System.out.println(pageNum);
 
         List<Duty> dutyList = dutyService.selectAll();
         PageInfo<Duty> pageInfo = new PageInfo<>(dutyList);

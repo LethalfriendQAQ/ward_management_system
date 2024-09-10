@@ -520,8 +520,6 @@ function update() {
     patientApi.update(patientUpdate.value)
         .then(resp => {
             if (resp.code == 10000) {
-                console.log(resp);
-
                 //弹出消息
                 ElMessage.success(resp.msg);
                 //隐藏对话框
