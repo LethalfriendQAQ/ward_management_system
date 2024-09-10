@@ -23,8 +23,15 @@
     </resultMap>-->
     <resultMap id="dutyMap" type="duty">
         <id column="duty_id" property="dutyId" />
-        <collection column="duty_id" property="nurses" select="selectNurseByDutyId" />
+        <collection column="duty_id" property="nurses" select="selectNurseByDutyId">
+            <id column="nid" property="nid" />
+            <result column="nno" property="nno" />
+            <result column="nname" property="nname" />
+            <!-- 映射科室名称 -->
+            <result column="dname" property="dname" />
+        </collection>
     </resultMap>
+
     <insert id="insertDutyIdAndNid">
         INSERT INTO `duty_nurse` (`duty_id`, `nid`)
         VALUES
@@ -69,14 +76,26 @@
     <select id="selectByDutyId" resultType="com.st.bean.Duty">
         SELECT * FROM `duty` WHERE `duty_id`=#{dutyId}
     </select>
-    <select id="selectNurseByDutyId" resultType="Nurse">
+    <!--<select id="selectNurseByDutyId" resultType="Nurse">
         SELECT
             n.*, d.`duty_id`
         FROM
             `duty_nurse` d LEFT JOIN `nurse` n ON d.`duty_id`=n.`nid`
         WHERE
             d.`duty_id`=#{dutyId}
+    </select>-->
+    <select id="selectNurseByDutyId" resultType="Nurse">
+        SELECT
+            n.*, d.`duty_id`, dep.`dname`
+        FROM
+            `duty_nurse` d
+                LEFT JOIN `nurse` n ON d.`nid` = n.`nid`
+                LEFT JOIN `department` dep ON n.`did` = dep.`did`
+        WHERE
+            d.`duty_id` = #{dutyId}
     </select>
+
+
     <!--<select id="selectByDutyId" resultType="java.util.Duty">-->
     <!--    -->
     <!--</select>-->

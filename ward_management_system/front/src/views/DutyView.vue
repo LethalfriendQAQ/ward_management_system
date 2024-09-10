@@ -23,7 +23,7 @@
                             <el-table :data="scope.row.nurses">
                                 <el-table-column property="nno" label="护士工号" />
                                 <el-table-column property="nname" label="护士姓名" />
-                                <el-table-column property="department.dname" label="护士部门" />
+                                <el-table-column property="dname" label="护士部门" />
                             </el-table>
                         </el-popover>
                         <el-button size="small" type="primary" @click="selectByDutyId(scope.row.dutyId)">修改</el-button>

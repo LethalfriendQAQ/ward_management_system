@@ -19,4 +19,6 @@ public class Nurse {
     //负责患者
     //private String pno;
     private Department department;
+    private String dname;
+
 }
