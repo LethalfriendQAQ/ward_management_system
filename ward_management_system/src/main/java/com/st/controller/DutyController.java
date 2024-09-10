@@ -29,9 +29,7 @@ public class DutyController {
         if (pageNum == null) {
             pageNum = 1;
         }
-        PageHelper.startPage(pageNum, 3);
-        System.out.println("-------------------------------------------");
-        System.out.println(pageNum);
+        PageHelper.startPage(pageNum, 4);
 
         List<Duty> dutyList = dutyService.selectAll();
         PageInfo<Duty> pageInfo = new PageInfo<>(dutyList);
