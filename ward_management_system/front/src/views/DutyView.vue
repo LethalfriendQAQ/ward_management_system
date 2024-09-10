@@ -171,10 +171,12 @@ const pageInfo = ref({
 });
 let pageNow;
 function selectByPage(pageNum) {
-  pageNow = pageNum;
   dutyApi.selectByPage(pageNum)
       .then(resp => {
+        pageNow = pageNum;
+        console.log(pageNow);
         pageInfo.value = resp.data;
+        console.log(resp);
       });
 }
 
@@ -190,12 +192,8 @@ function selectByDutyId(dutyId) {
 
 //定义方法完成值班安排添加
 function insert() {
-    console.log(1111);
-
     dutyApi.insert()
         .then(resp => {
-            console.log(resp);
-            
             if (resp.code == 10000) {
                 ElMessage.success(resp.msg);
                 //隐藏对话框
@@ -222,7 +220,6 @@ function update() {
     dutyApi.update(dutyUpdate.value)
         .then(resp => {
             console.log(resp);
-            
             if (resp.code == 10000) {
                 //弹出消息
                 ElMessage({
@@ -233,7 +230,7 @@ function update() {
                 //隐藏对话框
                 updateDialogShow.value = false;
                 //刷新表格数据
-                selectAll();
+                selectByPage(pageNow);
             } else {
                 //弹出消息
                 ElMessage({
@@ -269,7 +266,6 @@ function showSetDutyDialog(dutyId) {
 function insertDutyIdAndNid() {
     dutyApi.insertDutyIdAndNid(selectDutyId.value, selectNids.value)
         .then(resp => {
-            console.log(resp);
             //弹出消息
             ElMessage.success(resp.msg);
             //隐藏分配员工的对话框
