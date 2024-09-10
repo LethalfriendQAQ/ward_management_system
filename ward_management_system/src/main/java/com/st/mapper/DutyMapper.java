@@ -12,11 +12,13 @@ public interface DutyMapper {
     Duty selectByDutyId(Long dutyId);
     //查询所有的值班
     List<Duty> selectAll();
+    List<Duty> selectNurseByDutyId();
     //获取某个值班和所有的护士的nid
     List<Long> selectNidByDutyId(Integer dutyId);
     //删除某个值班和所有护士的管理关系
     void deleteDutyIdAndNidByDutyId(Integer dutyId);
     //添加某个值班和所有护士的管理关系
     void insertDutyIdAndNid(@Param("dutyId") Integer dutyId, @Param("nids") Long[] nids);
+
 
 }

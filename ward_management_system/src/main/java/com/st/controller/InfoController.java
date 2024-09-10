@@ -30,9 +30,11 @@ public class InfoController {
         String token = request.getHeader("token");
         //解析jwt
         Map<String, Object> map = JwtUtil.parseJwtToMap(token);
+
         Integer id = (Integer) map.get("id");
         //根据ID查询用户信息
         Admin admin = adminService.selectById(id);
+
 
         //返回
         return RespBean.ok("", admin);

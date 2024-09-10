@@ -28,6 +28,9 @@ const dutyApi = {
     },
     selectByDutyId(dutyId) {
         return service.get(`/user/duty/selectByDutyId/${dutyId}`)
+    },
+    selectByPage() {
+        return service.get('/user/duty/selectByPage');
     }
 };
 

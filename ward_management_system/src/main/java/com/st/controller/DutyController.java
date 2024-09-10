@@ -1,5 +1,7 @@
 package com.st.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.st.bean.Duty;
 import com.st.bean.RespBean;
 import com.st.exception.SteduException;
@@ -22,9 +24,21 @@ public class DutyController {
     @Autowired
     private NurseService nurseService;
 
+    @GetMapping("/selectByPage")
+    public RespBean selectByPage(Integer pageNum) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        PageHelper.startPage(pageNum, 3);
+
+        List<Duty> dutyList = dutyService.selectAll();
+        PageInfo<Duty> pageInfo = new PageInfo<>(dutyList);
+        System.out.println(pageInfo);
+        return RespBean.ok("查询成功", pageInfo);
+    }
+
     @PostMapping("/insert/{duty}")
     public RespBean insert(@RequestBody Duty duty) {
-        System.out.println(111111);
         //添加
         if (dutyService.insert(duty)) {
             return RespBean.ok("添加成功");

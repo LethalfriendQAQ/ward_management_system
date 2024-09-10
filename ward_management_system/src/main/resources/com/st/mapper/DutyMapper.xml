@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.st.mapper.DutyMapper">
-    <resultMap id="dutyMap" type="duty">
+<!--    <resultMap id="dutyMap" type="duty">
         <id column="duty_id" property="dutyId" />
         <result column="duty_date" property="dutyDate" />
         <result column="duty_work_time" property="dutyWorkTime" />
         <result column="duty_closing_time" property="dutyClosingTime" />
         <result column="duty_task_progress" property="dutyTaskProgress" />
         <result column="duty_details" property="dutyDetails" />
-        <!--  一对多映射  -->
+        &lt;!&ndash;  一对多映射  &ndash;&gt;
         <collection property="nurses" ofType="nurse">
             <id column="nid" property="nid" />
             <result column="nno" property="nno" />
             <result column="nname" property="nname" />
-            <!--  一对一映射  -->
+            &lt;!&ndash;  一对一映射  &ndash;&gt;
             <association property="department" javaType="department">
                 <id column="did" property="did" />
                 <result column="dname" property="dname" />
                 <result column="dlocation" property="dlocation" />
             </association>
         </collection>
+    </resultMap>-->
+    <resultMap id="dutyMap" type="duty">
+        <id column="duty_id" property="dutyId" />
+        <collection column="duty_id" property="nurses" select="selectNurseByDutyId" />
     </resultMap>
     <insert id="insertDutyIdAndNid">
         INSERT INTO `duty_nurse` (`duty_id`, `nid`)
@@ -43,7 +47,7 @@
     <delete id="delete">
         DELETE FROM `duty` WHERE `duty_id`=#{dutyId}
     </delete>
-    <select id="selectAll" resultMap="dutyMap">
+<!--    <select id="selectAll" resultMap="dutyMap">
         SELECT
             duty.*, n.*, d.*
         FROM
@@ -54,12 +58,24 @@
                           ON dn.`nid` = n.`nid`
                 LEFT JOIN `department` d
                           ON n.`did` = d.`did`
+    </select>-->
+
+    <select id="selectAll" resultMap="dutyMap">
+        SELECT * FROM `duty`
     </select>
     <select id="selectNidByDutyId" resultType="java.lang.Long">
         SELECT `nid` FROM `duty_nurse` WHERE `duty_id`=#{dutyId}
     </select>
     <select id="selectByDutyId" resultType="com.st.bean.Duty">
         SELECT * FROM `duty` WHERE `duty_id`=#{dutyId}
+    </select>
+    <select id="selectNurseByDutyId" resultType="Nurse">
+        SELECT
+            n.*, d.`duty_id`
+        FROM
+            `duty_nurse` d LEFT JOIN `nurse` n ON d.`duty_id`=n.`nid`
+        WHERE
+            d.`duty_id`=#{dutyId}
     </select>
     <!--<select id="selectByDutyId" resultType="java.util.Duty">-->
     <!--    -->

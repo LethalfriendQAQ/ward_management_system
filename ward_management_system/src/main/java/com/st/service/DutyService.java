@@ -15,4 +15,6 @@ public interface DutyService {
     List<Long> selectNidByDutyId(Integer dutyId);
     //添加某个值班和所有护士的管理关系
     void insertDutyIdAndNid(Integer dutyId, Long[] nids);
+
+    List<Duty> selectByDutyDate(String dutyDate);
 }

@@ -4,7 +4,7 @@
     <select id="selectByUsername" resultType="admin">
         SELECT * FROM `admin` WHERE `username`=#{username}
     </select>
-    <select id="selectById" resultType="admin">
-        SELECT * FROM `admin` WHERE `id`=#{id}
+    <select id="selectById" resultType="com.st.bean.Admin">
+            SELECT * FROM `admin` WHERE `id` = #{id}
     </select>
 </mapper>

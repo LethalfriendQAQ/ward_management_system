@@ -11,7 +11,8 @@ public class MyTest09 {
     private AdminService adminService;
     @Test
     public void test01() {
-
+        System.out.println(adminService.selectById(1));
+        
     }
 
 }

@@ -2,7 +2,7 @@
     <el-col :span="24">
         <el-card>
             <el-button type="success" style="margin-bottom: 10px;" @click="addDialogShow = true;">添加</el-button>
-            <el-table :data="dutyList" border style="width: 100%">
+            <el-table :data="pageInfo.list" border style="width: 100%">
                 <el-table-column prop="dutyId" label="ID" width="50px" />
                 <el-table-column prop="dutyDate" label="值班日期" />
                 <el-table-column prop="dutyWorkTime" label="上班时间" />
@@ -36,6 +36,10 @@
                     </template>
                 </el-table-column>
             </el-table>
+          <el-row class="row-bg" justify="center">
+            <el-pagination background layout="prev, pager, next" :total="pageInfo.total"
+                           :page-size="pageInfo.pageSize" @change="selectByPage" />
+          </el-row>
         </el-card>
     </el-col>
 
@@ -125,6 +129,7 @@
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import dutyApi from '@/api/dutyApi';
+import patientApi from "@/api/patientApi.js";
 
 
 const dutyList = ref([]);
@@ -160,11 +165,23 @@ const dutyUpdate = ref({
     nurses: ''
 })
 
+const pageInfo = ref({
+  total: 0,
+  pageSize: 0
+});
+let pageNow;
+function selectByPage(pageNum) {
+  pageNow = pageNum;
+  dutyApi.selectByPage(pageNum)
+      .then(resp => {
+        pageInfo.value = resp.data;
+      });
+}
+
 //查询修改的id并显示修改对话框
 function selectByDutyId(dutyId) {
     dutyApi.selectByDutyId(dutyId)
         .then(resp => {
-            console.log(resp);
             dutyUpdate.value = resp.data;
             //显示修改对话框
             updateDialogShow.value = true
@@ -277,7 +294,8 @@ function deleteByDutyId(dutyId) {
         });
 }
 
-selectAll();
+//默认查询首页
+selectByPage(1);
 </script>
 <style scoped>
 .demo-range .el-date-editor {

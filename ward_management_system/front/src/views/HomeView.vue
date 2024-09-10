@@ -80,7 +80,7 @@ function getLoginInfo() {
   adminApi.getLoginInfo()
       .then(resp => {
         console.log(resp);
-          username.value = resp.data;
+          username.value = resp.data.username;
       });
 }
 

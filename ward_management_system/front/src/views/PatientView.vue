@@ -460,7 +460,6 @@ function getDepartmentName(did) {
 function selectByPage(pageNum) {
     patientApi.selectByPage(pageNum, pname.value, did.value, pstatus.value)
         .then(resp => {
-            console.log(resp);
             pageInfo.value = resp.data;
             pageNow = resp.data.pageNum;
         });
