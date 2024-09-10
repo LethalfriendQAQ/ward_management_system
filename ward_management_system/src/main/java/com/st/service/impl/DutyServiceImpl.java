@@ -5,6 +5,7 @@ import com.st.mapper.DutyMapper;
 import com.st.service.DutyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -89,12 +90,17 @@ public class DutyServiceImpl implements DutyService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insertDutyIdAndNid(Integer dutyId, Long[] nids) {
         //删除值班和护士的关系
         dutyMapper.deleteDutyIdAndNidByDutyId(dutyId);
 
-        //添加值班和护士的关系
-        dutyMapper.insertDutyIdAndNid(dutyId, nids);
+        if (nids != null && nids.length > 0) {
+            //添加值班和护士的关系
+            dutyMapper.insertDutyIdAndNid(dutyId, nids);
+        }
+
+
     }
 
     @Override
