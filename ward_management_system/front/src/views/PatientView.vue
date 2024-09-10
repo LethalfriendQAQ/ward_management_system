@@ -84,14 +84,14 @@
     <!-- 添加对话框开始 -->
     <el-dialog v-model="addDialogShow" title="添加患者" width="500">
         <el-form>
-            <el-form-item label="编号" label-width="20%">
-                <el-input v-model="patientAdd.pno" autocomplete="off" />
+            <el-form-item label="编号" prop="patientAdd.pno" :rules="pnoRules" label-width="20%">
+                <el-input v-model="patientAdd.pno" autocomplete="off" :rules="pnoRules" />
             </el-form-item>
-            <el-form-item label="姓名" label-width="20%">
-                <el-input v-model="patientAdd.pname" autocomplete="off" />
+            <el-form-item label="姓名" prop="patientAdd.pname" :rules="pnameRules" label-width="20%">
+                <el-input v-model="patientAdd.pname" autocomplete="off" :rules="pnameRules" />
             </el-form-item>
-            <el-form-item label="年龄" label-width="20%">
-                <el-input v-model="patientAdd.page" autocomplete="off" />
+            <el-form-item label="年龄" prop="patientAdd.page" :rules="pageRules" label-width="20%">
+                <el-input v-model="patientAdd.page" autocomplete="off" :rules="pageRules" />
             </el-form-item>
             <el-form-item label="性别" label-width="20%">
                 <el-radio-group v-model="patientAdd.pgender">
@@ -159,13 +159,13 @@
     <!-- 修改对话框开始 -->
     <el-dialog v-model="updateDialogShow" title="修改患者" width="500" @close="closeDialog">
         <el-form>
-            <el-form-item label="编号" label-width="20%">
+            <el-form-item label="编号" prop="patientUpdate.pno" :rules="pnoRules" label-width="20%">
                 <el-input v-model="patientUpdate.pno" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="姓名" label-width="20%">
+            <el-form-item label="姓名" prop="patientUpdate.pname" :rules="pnameRules" label-width="20%">
                 <el-input v-model="patientUpdate.pname" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="年龄" label-width="20%">
+            <el-form-item label="年龄"  prop="patientUpdate.page" :rules="pageRules" label-width="20%">
                 <el-input v-model="patientUpdate.page" autocomplete="off" />
             </el-form-item>
             <el-form-item label="性别" label-width="20%">
@@ -312,8 +312,30 @@ const patientUpdate = ref({
     ptelephone: '',
     did: ''
 });
+const pnoRules = [
+  { required: true, message: '编号不能为空', trigger: 'blur' },
+  { pattern: /^[0-9]+$/, message: '编号只能为数字', trigger: 'blur' }
+]
+const pnameRules = [
+  { required: true, message: '姓名不能为空', trigger: 'blur' },
+]
+const pageRules = [
+  { required: true, message: '年龄不能为空', trigger: 'blur' },
+  { pattern: /^[0-9]+$/, message: '年龄只能为数字', trigger: 'blur' }
+]
 
-
+const submitFrom = () => {
+  const formRef = $refs.formRef;
+  formRef.validate((valid) => {
+    if (valid) {
+      // 提交表单
+      console.log('提交数据:', patientAdd.value);
+    } else {
+      console.log('表单校验失败');
+      return false;
+    }
+  });
+};
 // 导出 Excel 方法
 function exportToExcel() {
     // 获取表格数据
