@@ -188,7 +188,6 @@ function selectByPage(pageNum) {
 function selectByDutyId(dutyId) {
     dutyApi.selectByDutyId(dutyId)
         .then(resp => {
-          console.log()
             dutyUpdate.value = resp.data;
             //显示修改对话框
             updateDialogShow.value = true
@@ -213,7 +212,7 @@ function insert() {
                     nurses: ''
                 }
                 //刷新表格数据
-                selectAll();
+              selectByPage(pageNow);
             } else {
                 ElMessage.error(resp.msg);
             }
@@ -274,7 +273,7 @@ function insertDutyIdAndNid() {
             ElMessage.success(resp.msg);
             //隐藏分配员工的对话框
             setDutyDialogShow.value = false;
-            selectAll();
+            selectByPage(pageNow);
         });
 }
 
