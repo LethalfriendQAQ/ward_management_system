@@ -7,17 +7,13 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="success" plain @click="exportToExcel">导出 Excel</el-button>
+                    <!--<el-button type="success" plain @click="exportPatient">导出Excel</el-button>-->
                 </el-form-item>
-                <el-form-item style="height: 32px;">
-                    <el-upload
-                        class="upload-demo"
-                        action="#"
-                        :before-upload="beforeUpload"
-                        :on-change="handleFileChange"
-                        accept=".xlsx, .xls"
-                    >
-                        <el-button type="success" plain>导入 Excel</el-button>
-                    </el-upload>
+                <el-form-item>
+                  <el-upload :on-success="uploadPatient" action="http://localhost:8080/user/patient/upload"
+                             :headers="headers" method="post" name="file" list-type="none" :show-file-list="false">
+                    <el-button type="success" plain>导入Excel</el-button>
+                  </el-upload>
                 </el-form-item>
                 <el-form-item style="float: right;">
                     <el-radio-group v-model="pstatus" @change="selectByPage(1);">
@@ -238,6 +234,7 @@ import nurseApi from '@/api/nurseApi';
 import { computed, ref, watch } from 'vue';
 import { ElMessage } from 'element-plus';
 import wardApi from '@/api/wardApi';
+import { Download, UploadFilled } from '@element-plus/icons-vue';
 import bedApi from '@/api/bedApi';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -363,6 +360,17 @@ function exportToExcel() {
     // 生成 Excel 文件并下载
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '患者数据.xlsx');
+}
+
+
+function uploadPatient(response) {
+  if (response.code == 10000) {
+    selectByPage(pageNow);
+    ElMessage.success("上传成功");
+  } else {
+    ElMessage.error(response.msg);
+  }
+
 }
 
 

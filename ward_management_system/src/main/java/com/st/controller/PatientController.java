@@ -1,5 +1,7 @@
 package com.st.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.listener.PageReadListener;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.st.bean.Patient;
@@ -9,7 +11,11 @@ import com.st.service.NurseService;
 import com.st.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -80,4 +86,40 @@ public class PatientController {
     public List<Map<String, Object>> getPatientCountByDepartment() {
         return patientService.getPatientCountByDepartment();
     }
+    @PostMapping("/upload")
+    public RespBean upload(MultipartFile file) throws IOException {
+        EasyExcel.read(file.getInputStream(), Patient.class, new PageReadListener<Patient>(dataList -> {
+            for (Patient patient : dataList) {
+                try {
+                    patientService.insert(patient);
+                } catch (SteduException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        })).sheet().doRead();
+        return RespBean.ok("上传成功");
+    }
+    @GetMapping("/download")
+    public void downloadPatient(HttpServletResponse response) {
+        try {
+            // 设置下载响应头
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding("utf-8");
+            String fileName = URLEncoder.encode("患者信息表", "UTF-8");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+
+            // 模拟患者数据
+            List<Patient> patients = patientService.selectAll(); // 获取患者列表
+
+            // 使用EasyExcel写入Excel文件
+            EasyExcel.write(response.getOutputStream(), Patient.class)
+                    .sheet("患者信息")
+                    .doWrite(patients);
+
+        } catch (IOException e) {
+            throw new RuntimeException("导出失败", e);
+        }
+    }
+
+
 }

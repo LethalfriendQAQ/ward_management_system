@@ -39,4 +39,10 @@ public class WebExceptionHandler {
         e.printStackTrace();
         return RespBean.error("未知错误，请联系管理员");
     }
+    @ExceptionHandler(RuntimeException.class)
+    public RespBean runtimeexceptionHandler(RuntimeException e) {
+        e.printStackTrace();
+        return RespBean.error(e.getMessage());
+    }
+
 }

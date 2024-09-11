@@ -29,7 +29,12 @@ const patientApi = {
     },
     getPatientCountByDepartment() {
         return service.get('/user/patient/patientCountByDepartment');
-    }
+    },
+    export() {
+        return service.get('/user/patient/export', {
+            responseType: 'blob' // 需要指定返回文件流
+        });
+    },
 }
 
 export default patientApi;
