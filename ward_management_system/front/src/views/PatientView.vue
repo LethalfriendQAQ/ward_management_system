@@ -238,9 +238,12 @@ import { Download, UploadFilled } from '@element-plus/icons-vue';
 import bedApi from '@/api/bedApi';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { useTokenStore} from "@/stores/token.js";
+
+const tokenStore = useTokenStore();
 
 const headers = computed(() => {
-    let token = sessionStorage.getItem("token");
+  let token = tokenStore.tokenStr;
     return {
         token
     }

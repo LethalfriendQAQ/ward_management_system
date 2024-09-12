@@ -8,6 +8,7 @@ import WardView from '@/views/WardView.vue'
 import BedView from '@/views/BedView.vue'
 import DutyView from '@/views/DutyView.vue'
 import LoginView from '@/views/LoginView.vue'
+import {useTokenStore} from "@/stores/token.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,8 +64,10 @@ router.beforeEach((to, from) => {
   if(to.path == '/login') {
     return true;
   } else {
-    //判断sessionStorage中是否有token
-    if(!sessionStorage.getItem('token')) {
+    const tokenStore = useTokenStore();
+
+    //判断store中是否有token
+    if(!tokenStore.token) {
       return "/login";
     } else {
       return true;

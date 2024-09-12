@@ -61,6 +61,10 @@ import router from '@/router'
 import { RouterView, RouterLink } from 'vue-router';
 import adminApi from "@/api/adminApi.js";
 import {ref} from "vue";
+import { useTokenStore} from "@/stores/token.js";
+
+
+const tokenStore = useTokenStore();
 
 const username = ref('');
 
@@ -69,8 +73,8 @@ function toPage(indexPath) {
   router.push(indexPath);
 }
 function logout() {
-  //删除sessionStorage中的token
-  sessionStorage.removeItem('token');
+  //重置store中的token
+  tokenStore.$reset();
   //跳转到登录页
   router.push('/login');
 }
