@@ -8,6 +8,11 @@
       <el-form-item label="密码" prop="password" label-width="65px">
         <el-input type="password" v-model="admin.password"></el-input>
       </el-form-item>
+      <el-form-item label="验证码" prop="captcha" label-width="65px">
+        <el-input type="text" v-model="admin.captcha"></el-input>
+        <el-image style="width: 120px; height: 38px" :src="captchaImageBase64Data" @click="getcaptcha" />
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="login">登录</el-button>
       </el-form-item>
@@ -24,12 +29,16 @@ import {useTokenStore} from "@/stores/token.js";
 
 const tokenStore = useTokenStore();
 
+
 // 表单数据
 const admin = ref({
   username: '',
-  password: ''
+  password: '',
+  captchaId: '',
+  captcha: ''
 });
 
+const captchaImageBase64Data = ref('');
 // 表单验证规则
 const rules = {
   username: [
@@ -37,6 +46,9 @@ const rules = {
   ],
   password: [
     {required: true, message: '密码不能为空', trigger: 'blur'}
+  ],
+  captcha: [
+    {required: true, message: '验证码不能为空', trigger: 'blur'}
   ]
 };
 
@@ -70,6 +82,17 @@ function login() {
     }
   });
 }
+
+function getcaptcha() {
+  adminApi.captcha()
+      .then(resp => {
+        console.log(resp);
+        admin.value.captchaId = resp.data.captchaId;
+        captchaImageBase64Data.value = resp.data.captchaImageBase64Data;
+      })
+}
+
+getcaptcha();
 
 </script>
 

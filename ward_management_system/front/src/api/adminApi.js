@@ -7,6 +7,9 @@ const adminApi = {
     },
     getLoginInfo() {
         return service.get("/user/info/userInfo")
+    },
+    captcha() {
+        return service.get("/captcha")
     }
 }
 export default adminApi;
